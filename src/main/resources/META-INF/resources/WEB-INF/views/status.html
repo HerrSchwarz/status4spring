@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>ELV - Spring Status</title>
+  <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<th:block th:if="${header}">
+  <div th:include="${header}"/>
+</th:block>
+<div class="container">
+  <h1 th:text="#{status_page_headline}">Status</h1>
+  <div class="container">
+    <span th:text="#{status_time_label}">Server Zeit: </span>
+    <span th:text="${#calendars.format(#calendars.createNow(),'yyyy-MM-dd HH:mm:ss.sss')}"></span>
+  </div>
+  <h2 th:text="#{status_headline}"></h2>
+  <table class="table table-striped table-hover">
+    <tr th:if="${version}">
+      <td th:text="#{status_version_label}">Version:</td>
+      <td th:text="${version}">version</td>
+    </tr>
+    <tr>
+      <td th:text="#{status_starttime_label}">Starttime:</td>
+      <td th:text="${status.starttime}"></td>
+    </tr>
+    <tr>
+      <td th:text="#{status_uptime_label}">Uptime:</td>
+      <td th:text="${status.uptime}"></td>
+    </tr>
+    <tr>
+      <td th:text="#{status_classpath_label}">Classpath:</td>
+      <td th:text="${status.classpath}"></td>
+    </tr>
+    <tr>
+      <td th:text="#{status_threadCount_label}">Number of threads:</td>
+      <td th:text="${status.threadCount}"></td>
+    </tr>
+    <tr>
+      <td th:text="#{status_processors_label}">Number of processors:</td>
+      <td th:text="${status.processors}"></td>
+    </tr>
+    <tr>
+      <td th:text="#{status_averageLoad_label}">Average load:</td>
+      <td th:text="${status.averageLoad}"></td>
+    </tr>
+    <tr>
+      <td th:text="#{status_memory_label}">Speicher:</td>
+      <td>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar"
+               th:attr="style=${'width:' + status.memoryUsage * 100 + '%;'}">
+            <span th:text="${status.usedMemory / (1024 * 1024)}"></span>
+            <span th:text="#{status_memoryUnit_label}"></span>
+            /
+            <span th:text="${status.maxMemory / (1024 * 1024) }"></span>
+            <span th:text="#{status_memoryUnit_label}"></span>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td th:text="#{status_osArch_label}">OS arch</td>
+      <td th:text="${status.osArch}"></td>
+    </tr>
+    <tr>
+      <td th:text="#{status_osName_label}">OS name</td>
+      <td th:text="${status.osName}"></td>
+    </tr>
+    <tr>
+      <td th:text="#{status_osVersion_label}">OS version</td>
+      <td th:text="${status.osVersion}"></td>
+    </tr>
+  </table>
+  <div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+             th:text="#{status_systemProperties_headline}">
+            System Properties:
+          </a>
+        </h2>
+      </div>
+      <div id="collapseOne" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+          <table class="table table-striped table-hover">
+            <th th:text="#{status_property_tableHead}">Property</th>
+            <th th:text="#{status_value_tableHead}">Wert</th>
+            <tr th:each="property : ${status.systemProperties}">
+              <td th:text="${property.key}">Name</td>
+              <td th:text="${property.value}">Wert</td>
+            </tr>
+          </table>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
+             th:text="#{status_environmentVariables_headline}">
+            Umgebungsvariablen
+          </a>
+        </h2>
+      </div>
+      <div id="collapseTwo" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+          <table class="table table-striped table-hover">
+            <th th:text="#{status_variable_tableHead}">Variable</th>
+            <th th:text="#{status_value_tableHead}">Wert</th>
+            <tr th:each="variable : ${status.environmentVariables}">
+              <td th:text="${variable.key}">Name</td>
+              <td th:text="${variable.value}">Wert</td>
+            </tr>
+          </table>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
