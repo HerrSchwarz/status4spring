@@ -4,3 +4,6 @@ branches:
   only:
     - develop
     - master
+    
+jdk:
+  - oraclejdk8
