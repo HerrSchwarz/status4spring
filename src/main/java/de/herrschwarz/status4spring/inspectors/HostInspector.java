@@ -3,6 +3,7 @@ package de.herrschwarz.status4spring.inspectors;
 import static java.lang.String.format;
 import static java.lang.invoke.MethodHandles.lookup;
 import static java.util.Locale.ENGLISH;
+import static java.util.Locale.ROOT;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ public class HostInspector implements HealthInspector {
   public InspectionResult inspect() {
     Socket socket = null;
     boolean reachable = false;
-    String message = "ok";
+    String message = format(ROOT, "host: %s:%d", host, port);
     try {
       socket = SocketFactory.createSocket(host, port);
       reachable = true;
@@ -44,6 +45,7 @@ public class HostInspector implements HealthInspector {
         }
       }
     }
+
     return new InspectionResult(name, reachable, message);
   }
 

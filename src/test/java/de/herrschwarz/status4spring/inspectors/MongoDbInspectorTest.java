@@ -30,7 +30,7 @@ public class MongoDbInspectorTest {
     when(mongoDb.getName()).thenReturn("test");
     MongoDbInspector inspector = new MongoDbInspector("mongoDb", this.mongoDb);
     InspectionResult result = inspector.inspect();
-    assertThat(result.isSuccessfull(), is(false));
+    assertThat(result.isSuccessful(), is(false));
     assertThat(result.getDescription(),
         is("name = test, status = ERROR (com.mongodb.MongoException: test), Collections = 0"));
   }
@@ -45,7 +45,7 @@ public class MongoDbInspectorTest {
     when(commandResult.ok()).thenReturn(false);
     MongoDbInspector inspector = new MongoDbInspector("mongoDb", this.mongoDb);
     InspectionResult result = inspector.inspect();
-    assertThat(result.isSuccessfull(), is(false));
+    assertThat(result.isSuccessful(), is(false));
     assertThat(result.getDescription(),
         is("name = test, status = WARNING (null), Collections = 1"));
   }
@@ -60,7 +60,7 @@ public class MongoDbInspectorTest {
     when(mongoDb.getName()).thenReturn("test");
     MongoDbInspector inspector = new MongoDbInspector("mongoDb", this.mongoDb);
     InspectionResult result = inspector.inspect();
-    assertThat(result.isSuccessfull(), is(true));
+    assertThat(result.isSuccessful(), is(true));
     assertThat(result.getDescription(), is("name = test, status = OK, Collections = 1"));
   }
 
@@ -72,7 +72,7 @@ public class MongoDbInspectorTest {
     when(mongoDb.getName()).thenReturn("test");
     MongoDbInspector inspector = new MongoDbInspector("mongoDb", this.mongoDb);
     InspectionResult result = inspector.inspect();
-    assertThat(result.isSuccessfull(), is(false));
+    assertThat(result.isSuccessful(), is(false));
     assertThat(result.getDescription(),
         is("name = test, status = WARNING (No Collections found), Collections = 0"));
 

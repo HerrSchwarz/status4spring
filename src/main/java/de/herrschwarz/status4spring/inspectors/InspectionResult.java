@@ -16,7 +16,7 @@ public class InspectionResult {
     return name;
   }
 
-  public boolean isSuccessfull() {
+  public boolean isSuccessful() {
     return success;
   }
 

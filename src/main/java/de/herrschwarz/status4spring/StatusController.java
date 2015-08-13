@@ -33,6 +33,9 @@ import java.util.List;
 @Controller
 public class StatusController {
 
+  private static final String HEALTH_ATTRIBUTE = "health";
+  private static final String VERSION_ATTRIBUTE = "version";
+  private static final String HEADER_ATTRIBUTE = "header";
   private List<HealthInspector> healthInspectors = new ArrayList<>();
   private String version;
   private String header;
@@ -80,28 +83,17 @@ public class StatusController {
     return model;
   }
 
-  @ModelAttribute("version")
+  @ModelAttribute(VERSION_ATTRIBUTE)
   public String version() {
     return this.version;
   }
 
-  @ModelAttribute("header")
+  @ModelAttribute(HEADER_ATTRIBUTE)
   public String header() {
     return this.header;
   }
 
-  public void addHealthInspector(HealthInspector inspector) {
-    healthInspectors.add(inspector);
-  }
-
-  public void setVersion(String version) {
-    this.version = version;
-  }
-
-  public void setHeader(String header) {
-    this.header = header;
-  }
-
+  @ModelAttribute(HEALTH_ATTRIBUTE)
   private List<InspectionResult> inspectSystem() {
     return healthInspectors.stream().map(i -> executeInspector(i)).collect(toList());
   }
@@ -119,5 +111,17 @@ public class StatusController {
     long uptimeInMs = getRuntimeMXBean().getUptime();
     Duration duration = Duration.ofMillis(uptimeInMs);
     return duration.toString();
+  }
+
+  public void addHealthInspector(HealthInspector inspector) {
+    healthInspectors.add(inspector);
+  }
+
+  public void setVersion(String version) {
+    this.version = version;
+  }
+
+  public void setHeader(String header) {
+    this.header = header;
   }
 }

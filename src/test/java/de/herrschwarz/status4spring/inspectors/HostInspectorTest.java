@@ -26,7 +26,9 @@ public class HostInspectorTest {
     when(SocketFactory.createSocket(anyString(), anyInt())).thenThrow(new IOException());
     HostInspector testUnit = new HostInspector("test", "localhost", 0);
     InspectionResult result = testUnit.inspect();
-    assertThat(result.isSuccessfull(), is(false));
+    assertThat(result.isSuccessful(), is(false));
+    assertThat(result.getName(), is("test"));
+    assertThat(result.getDescription(), is("Could not reach host localhost on port 0"));
   }
 
   @Test
@@ -35,6 +37,8 @@ public class HostInspectorTest {
     when(SocketFactory.createSocket(anyString(), anyInt())).thenReturn(mock(Socket.class));
     HostInspector testUnit = new HostInspector("test", "localhost", 0);
     InspectionResult result = testUnit.inspect();
-    assertThat(result.isSuccessfull(), is(true));
+    assertThat(result.isSuccessful(), is(true));
+    assertThat(result.getName(), is("test"));
+    assertThat(result.getDescription(), is("host: localhost:0"));
   }
 }
