@@ -105,7 +105,7 @@
         </h2>
         <table class="table table-striped table-hover">
           <th th:text="#{status_variable_tableHead}">Variable</th>
-          <th th:text="#{status_value_tableHead}">Wert</th>
+          <th th:text="#{status_value_tableHead}">Value</th>
           <tr th:each="variable : ${status.environmentVariables}">
             <td th:text="${variable.key}">Name</td>
             <td th:text="${variable.value}">Value</td>
@@ -113,7 +113,7 @@
         </table>
       </div>
       <div class="tab-pane" id="health">
-        <h2 th:text="#{status_environmentVariables_headline}">
+        <h2 th:text="#{status_health_headline}">
           Health
         </h2>
         <table class="table table-striped table-hover">
