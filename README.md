@@ -1,6 +1,6 @@
 # status4spring
 
-![Build Status](https://travis-ci.org/HerrSchwarz/status4spring.svg)
+[![Build Status](https://travis-ci.org/HerrSchwarz/status4spring.svg)](https://travis-ci.org/HerrSchwarz/status4spring)
 
 This is in a quite early stage and to be considered unfinished. But it's already more or less usable.
 
