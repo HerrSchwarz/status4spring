@@ -1,7 +1,23 @@
 package de.herrschwarz.status4spring;
 
+import static de.herrschwarz.status4spring.StatusViewNames.INTERNAL_HEALTH_VIEW_NAME;
+import static de.herrschwarz.status4spring.StatusViewNames.INTERNAL_STATUS_VIEW_NAME;
+import static de.herrschwarz.status4spring.StatusViewNames.INTERNAL_VERSION_VIEW_NAME;
+import static java.lang.Double.valueOf;
+import static java.lang.Runtime.getRuntime;
+import static java.lang.String.format;
+import static java.lang.System.getenv;
+import static java.lang.Thread.activeCount;
+import static java.lang.invoke.MethodHandles.lookup;
+import static java.lang.management.ManagementFactory.getOperatingSystemMXBean;
+import static java.lang.management.ManagementFactory.getRuntimeMXBean;
+import static java.util.Locale.ROOT;
+import static java.util.stream.Collectors.toList;
+import static org.slf4j.LoggerFactory.getLogger;
+
 import de.herrschwarz.status4spring.inspectors.HealthInspector;
 import de.herrschwarz.status4spring.inspectors.InspectionResult;
+
 import org.slf4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
