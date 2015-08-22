@@ -9,9 +9,9 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
-<th:block th:if="${header}">
-  <div th:include="header :: header"/>
-</th:block>
+<!--<th:block th:if="${header}">-->
+  <!--<div th:include="header :: header"/>-->
+<!--</th:block>-->
 <div class="container">
   <h1 th:text="#{status_page_headline}">Status</h1>
   <div class="content">
@@ -63,10 +63,10 @@
               <div class="progress">
                 <div class="progress-bar" role="progressbar"
                      th:attr="style=${'width:' + status.memoryUsage * 100 + '%;'}">
-                  <span th:text="${status.usedMemory / (1024 * 1024)}"></span>
+                  <span th:text="${#numbers.formatDecimal((status.usedMemory / (1024 * 1024)), 0, 'COMMA', 0, 'POINT')}"></span>
                   <span th:text="#{status_memoryUnit_label}"></span>
                   /
-                  <span th:text="${status.maxMemory / (1024 * 1024) }"></span>
+                  <span th:text="${#numbers.formatDecimal((status.maxMemory / (1024 * 1024)), 0, 'COMMA', 0, 'POINT')}"></span>
                   <span th:text="#{status_memoryUnit_label}"></span>
                 </div>
               </div>
