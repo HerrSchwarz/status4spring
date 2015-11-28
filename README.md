@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/HerrSchwarz/status4spring.svg)](https://travis-ci.org/HerrSchwarz/status4spring)
 
+There is a [Spring Boot](https://github.com/herrschwarz/status4springExampleSpringBoot) example available. Clone the repo, run 'mvn spring-boot:run' and have a look at [http://localhost:8080/internal/status](http://localhost:8080/internal/status)
+
 This is in a quite early stage and to be considered unfinished. But it's already more or less usable.
 
 Status controller for spring applications. Can provide various information like:
@@ -26,18 +28,21 @@ Status4spring comes with two health inspectors:
 
 ## Requirements
 
-You will need to set up:
+If you use Spring boot with default template configuration (prefix=classpath:/templates and suffix=.html) you only need to set up the controller in your Spring config. Otherwise you will need to set up:
 
 - Spring WebMVC
-- Thymeleaf (needs access to 'messages/status_messages.properties')
+- Thymeleaf (needs access to 'messages/status_messages.properties', prefix should be set up similar to Spring Boot projects)
 
 ## What you get
 
-You will get three pages:
+You will get one page with different information:
 
-- Status page, with some information about your system
-- Version page with only your version (can be used to check the version after a deployment, e.g. with ansible)
-- Health page, representing the health of the server (need HealthInspectors to be configured)
+- Status page
+    -  with some information about your system incl. version of your project
+    - System properties
+    - Environment variables
+- Version page, delivers version only (can be used to check the version after a deployment, e.g. with ansible)
+- Health page, representing the health of the server (need HealthInspectors to be configured). delivers json
 
 You will find these pages:
 
@@ -50,5 +55,4 @@ You will find these pages:
 - make urls configurable
 - Documentation
 - release to maven central
-- create a good example project
 - more health inspectors
