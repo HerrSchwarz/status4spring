@@ -1,7 +1,7 @@
-package de.herrschwarz.status4spring;
+package com.github.herrschwarz.status4spring;
 
-import de.herrschwarz.status4spring.inspectors.HealthInspector;
-import de.herrschwarz.status4spring.inspectors.InspectionResult;
+import com.github.herrschwarz.status4spring.inspectors.HealthInspector;
+import com.github.herrschwarz.status4spring.inspectors.InspectionResult;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static de.herrschwarz.status4spring.StatusViewNames.INTERNAL_STATUS_VIEW_NAME;
-import static de.herrschwarz.status4spring.StatusViewNames.INTERNAL_VERSION_VIEW_NAME;
+import static com.github.herrschwarz.status4spring.StatusViewNames.INTERNAL_STATUS_VIEW_NAME;
+import static com.github.herrschwarz.status4spring.StatusViewNames.INTERNAL_VERSION_VIEW_NAME;
 import static java.lang.Double.valueOf;
 import static java.lang.Runtime.getRuntime;
 import static java.lang.String.format;

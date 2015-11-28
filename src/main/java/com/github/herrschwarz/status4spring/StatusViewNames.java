@@ -1,4 +1,4 @@
-package de.herrschwarz.status4spring;
+package com.github.herrschwarz.status4spring;
 
 public class StatusViewNames {
 

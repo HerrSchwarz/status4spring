@@ -1,4 +1,4 @@
-package de.herrschwarz.status4spring.inspectors;
+package com.github.herrschwarz.status4spring.inspectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;

@@ -1,4 +1,4 @@
-package de.herrschwarz.status4spring.inspectors;
+package com.github.herrschwarz.status4spring.inspectors;
 
 import static java.lang.String.format;
 import static java.lang.invoke.MethodHandles.lookup;
