@@ -17,10 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.herrschwarz.status4spring.StatusModelKeys.CUSTOM_HEADER_ENTRIES_KEY;
-import static com.github.herrschwarz.status4spring.StatusModelKeys.HEADER_KEY;
-import static com.github.herrschwarz.status4spring.StatusModelKeys.HEALTH_KEY;
-import static com.github.herrschwarz.status4spring.StatusModelKeys.VERSION_KEY;
+import static com.github.herrschwarz.status4spring.StatusModelKeys.*;
 import static com.github.herrschwarz.status4spring.StatusViewNames.INTERNAL_STATUS_VIEW_NAME;
 import static com.github.herrschwarz.status4spring.StatusViewNames.INTERNAL_VERSION_VIEW_NAME;
 import static java.lang.Double.valueOf;
@@ -38,10 +35,10 @@ import static org.slf4j.LoggerFactory.getLogger;
 @Controller
 public class StatusController {
 
-
-    private List<HealthInspector> healthInspectors = new ArrayList<>();
+    private String pageTitle = "Status";
     private String version;
     private String header;
+    private List<HealthInspector> healthInspectors = new ArrayList<>();
     private Map<String, String> customHeaderEntries = ImmutableMap.of();
 
     private static final Logger LOG = getLogger(lookup().lookupClass());
@@ -89,6 +86,11 @@ public class StatusController {
         return model;
     }
 
+    @ModelAttribute(PAGE_TITLE_KEY)
+    public String pageTitle() {
+        return this.pageTitle;
+    }
+
     @ModelAttribute(CUSTOM_HEADER_ENTRIES_KEY)
     public Map customHeaderEntries() {
         return this.customHeaderEntries;
@@ -124,8 +126,8 @@ public class StatusController {
         return duration.toString();
     }
 
-    public void addHealthInspector(HealthInspector inspector) {
-        healthInspectors.add(inspector);
+    public void setPageTitle(String pageTitle) {
+        this.pageTitle = pageTitle;
     }
 
     public void setVersion(String version) {
@@ -134,6 +136,10 @@ public class StatusController {
 
     public void setHeader(String header) {
         this.header = header;
+    }
+
+    public void addHealthInspector(HealthInspector inspector) {
+        healthInspectors.add(inspector);
     }
 
     public void setCustomHeaderEntries(Map<String, String> customHeaderEntries) {
