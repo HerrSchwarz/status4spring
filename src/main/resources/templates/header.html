@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/xhtml">
 <body>
-<div th:fragment="header">
+<div th:fragment="header (customHeaderEntries)">
   <nav class="navbar navbar-default">
 
     <div class="navbar-header">
@@ -10,6 +10,9 @@
         <li><a href="/internal/status">Status</a></li>
         <li><a href="/internal/version">Version</a></li>
         <li><a href="/internal/health">Health</a></li>
+        <th:block>
+          <li th:each="entry : ${customHeaderEntries}"><a th:href="${entry.value}" th:text="${entry.key}"></a></li>
+        </th:block>
       </ul>
     </div>
   </nav>

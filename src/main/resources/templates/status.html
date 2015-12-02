@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>ELV - Spring Status</title>
+  <title th:text="${title}">Status</title>
   <link rel="stylesheet" type="text/css"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -10,7 +10,7 @@
 </head>
 <body>
 <th:block>
-  <div th:include="header :: header"/>
+  <div th:include="header :: header(${customHeaderEntries})"/>
 </th:block>
 <div class="container">
   <h1 th:text="#{status_page_headline}">Status</h1>
