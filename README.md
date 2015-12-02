@@ -2,9 +2,9 @@
 
 [![Build Status](https://travis-ci.org/HerrSchwarz/status4spring.svg)](https://travis-ci.org/HerrSchwarz/status4spring)
 
-There is a [Spring Boot](https://github.com/herrschwarz/status4springExampleSpringBoot) example available. Clone the repo, run 'mvn spring-boot:run' and have a look at [http://localhost:8080/internal/status](http://localhost:8080/internal/status)
+There is a [Spring Boot example](https://github.com/herrschwarz/status4springExampleSpringBoot) available. Clone the repo, run 'mvn spring-boot:run' and have a look at [http://localhost:8080/internal/status](http://localhost:8080/internal/status)
 
-This is in a quite early stage and to be considered unfinished. But it's already more or less usable.
+The status controller is in an early stage and should be considered unfinished.
 
 Status controller for spring applications. Can provide various information like:
 
@@ -50,9 +50,20 @@ You will find these pages:
 - ${application-root}/internal/version
 - ${application-root}/internal/health
 
+## Maven dependency
+
+Status4spring is released to maven central:
+
+```xml
+<dependency>
+    <groupId>com.github.herrschwarz</groupId>
+    <artifactId>status4spring</artifactId>
+    <version>0.1.1</version>
+</dependency>
+```
+
 ## ToDo:
 
 - make urls configurable
 - Documentation
-- release to maven central
 - more health inspectors
