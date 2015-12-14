@@ -2,15 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/xhtml">
 <body>
-<div th:fragment="header (customHeaderEntries)">
+<div th:fragment="header">
   <nav class="navbar navbar-default">
-
     <div class="navbar-header">
       <ul class="nav navbar-nav">
-        <li><a href="/internal/status">Status</a></li>
-        <li th:if="${version}"><a href="/internal/version">Version</a></li>
-        <li th:if="${build}"><a href="/internal/build">Build</a></li>
-        <li><a href="/internal/health">Health</a></li>
+        <li><a th:href="@{/internal/version}"> Status</a></li>
+        <li th:if="${version}"><a th:href="@{/internal/version}">Version</a></li>
+        <li th:if="${build}"><a th:href="@{/internal/build}">Build</a></li>
+        <li><a th:href="@{/internal/health}">Health</a></li>
         <th:block>
           <li th:each="entry : ${customHeaderEntries}"><a th:href="${entry.value}" th:text="${entry.key}"></a></li>
         </th:block>

@@ -48,7 +48,7 @@ public class StatusController {
     public StatusController() {
     }
 
-    @RequestMapping(value = "/internal/status") //"${internal.status.url}")
+    @RequestMapping(value = "/internal/status")
     public ModelAndView showStatus() {
         return new ModelAndView(INTERNAL_STATUS_VIEW_NAME);
     }
@@ -64,9 +64,8 @@ public class StatusController {
     }
 
     @RequestMapping(value = "/internal/health")
-    public
     @ResponseBody
-    List<InspectionResult> showHealth() {
+    public Object showHealth() {
         return inspectSystem();
     }
 
@@ -145,6 +144,7 @@ public class StatusController {
     public void setVersion(String version) {
         this.version = version;
     }
+
     public void setBuild(String build) {
         this.build = build;
     }
