@@ -6,7 +6,7 @@
   <nav class="navbar navbar-default">
     <div class="navbar-header">
       <ul class="nav navbar-nav">
-        <li><a th:href="@{/internal/version}"> Status</a></li>
+        <li><a th:href="@{/internal/status}">Status</a></li>
         <li th:if="${version}"><a th:href="@{/internal/version}">Version</a></li>
         <li th:if="${build}"><a th:href="@{/internal/build}">Build</a></li>
         <li><a th:href="@{/internal/health}">Health</a></li>
