@@ -1,5 +1,15 @@
 package com.github.herrschwarz.status4spring.inspectors;
 
+import com.github.herrschwarz.status4spring.groups.UnitTest;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
+import java.io.IOException;
+import java.net.Socket;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.anyInt;
@@ -8,35 +18,38 @@ import static org.mockito.Mockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-
-import java.io.IOException;
-import java.net.Socket;
-
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(SocketFactory.class)
+@Category(UnitTest.class)
 public class HostInspectorTest {
 
   @Test
-  public void shouldFail() throws Exception {
+  public void shouldFailIfSocketCannotBeCreated() throws Exception {
+    // Given
     mockStatic(SocketFactory.class);
     when(SocketFactory.createSocket(anyString(), anyInt())).thenThrow(new IOException());
     HostInspector testUnit = new HostInspector("test", "localhost", 0);
+
+    // When
     InspectionResult result = testUnit.inspect();
+
+    // Then
     assertThat(result.isSuccessful(), is(false));
     assertThat(result.getName(), is("test"));
     assertThat(result.getDescription(), is("Could not reach host localhost on port 0"));
   }
 
   @Test
-  public void shouldSucceed() throws Exception {
+  public void shouldSucceedIfSocketCanBeCreated() throws Exception {
+    // Given
     mockStatic(SocketFactory.class);
     when(SocketFactory.createSocket(anyString(), anyInt())).thenReturn(mock(Socket.class));
     HostInspector testUnit = new HostInspector("test", "localhost", 0);
+
+    // When
     InspectionResult result = testUnit.inspect();
+
+    // Then
     assertThat(result.isSuccessful(), is(true));
     assertThat(result.getName(), is("test"));
     assertThat(result.getDescription(), is("host: localhost:0"));

@@ -42,6 +42,11 @@
       <version>4.2.0.RELEASE</version>
     </dependency>
     <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>4.1.6.RELEASE</version>
+    </dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>1.7.11</version>
@@ -65,9 +70,21 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>1.9.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.mongodb</groupId>
       <artifactId>mongo-java-driver</artifactId>
       <version>2.13.0</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.0.1</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
@@ -129,6 +146,16 @@
           <verbose>true</verbose>
           <fork>true</fork>
           <compilerVersion>${java_version}</compilerVersion>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.19</version>
+        <configuration>
+          <groups>
+            com.github.herrschwarz.status4spring.groups.UnitTest,
+            com.github.herrschwarz.status4spring.groups.IntegrationTest
+          </groups>
         </configuration>
       </plugin>
       <plugin>
