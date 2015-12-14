@@ -11,24 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import static com.github.herrschwarz.status4spring.StatusModelKeys.*;
-import static com.github.herrschwarz.status4spring.StatusViewNames.INTERNAL_BUILD_VIEW_NAME;
-import static com.github.herrschwarz.status4spring.StatusViewNames.INTERNAL_STATUS_VIEW_NAME;
-import static com.github.herrschwarz.status4spring.StatusViewNames.INTERNAL_VERSION_VIEW_NAME;
-import static java.lang.Double.valueOf;
-import static java.lang.Runtime.getRuntime;
+import static com.github.herrschwarz.status4spring.StatusViewNames.*;
 import static java.lang.String.format;
-import static java.lang.System.getenv;
-import static java.lang.Thread.activeCount;
 import static java.lang.invoke.MethodHandles.lookup;
-import static java.lang.management.ManagementFactory.getOperatingSystemMXBean;
-import static java.lang.management.ManagementFactory.getRuntimeMXBean;
 import static java.util.Locale.ROOT;
 import static java.util.stream.Collectors.toList;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -71,53 +61,35 @@ public class StatusController {
 
     @ModelAttribute("status")
     public ModelMap statusMap() {
-        ModelMap model = new ModelMap();
-        model.put("uptime", uptime());
-        model.put("starttime", new Date(getRuntimeMXBean().getStartTime()).toString());
-        model.put("classpath", getRuntimeMXBean().getClassPath());
-        model.put("freeMemory", getRuntime().freeMemory());
-        model.put("maxMemory", getRuntime().maxMemory());
-        model.put("usedMemory", getRuntime().maxMemory() - getRuntime().freeMemory());
-        model.put("memoryUsage",
-                (getRuntime().maxMemory() - getRuntime().freeMemory()) / valueOf(getRuntime().maxMemory()));
-        model.put("averageLoad", getOperatingSystemMXBean().getSystemLoadAverage());
-        model.put("processors", getRuntime().availableProcessors());
-        model.put("threadCount", activeCount());
-        model.put("osArch", getOperatingSystemMXBean().getArch());
-        model.put("osName", getOperatingSystemMXBean().getName());
-        model.put("osVersion", getOperatingSystemMXBean().getVersion());
-        model.put("systemProperties", getRuntimeMXBean().getSystemProperties());
-        model.put("environmentVariables", getenv());
-        model.put("systemCheck", inspectSystem());
-        return model;
+        return StatusUtil.getStatusMap();
     }
 
-    @ModelAttribute(PAGE_TITLE_KEY)
+    @ModelAttribute(PAGE_TITLE_MODEL_KEY)
     public String pageTitle() {
         return this.pageTitle;
     }
 
-    @ModelAttribute(CUSTOM_HEADER_ENTRIES_KEY)
+    @ModelAttribute(CUSTOM_HEADER_ENTRIES_MODEL_KEY)
     public Map customHeaderEntries() {
         return this.customHeaderEntries;
     }
 
-    @ModelAttribute(VERSION_KEY)
+    @ModelAttribute(VERSION_MODEL_KEY)
     public String version() {
         return this.version;
     }
 
-    @ModelAttribute(BUILD_KEY)
+    @ModelAttribute(BUILD_MODEL_KEY)
     public String build() {
         return this.build;
     }
 
-    @ModelAttribute(HEADER_KEY)
+    @ModelAttribute(HEADER_MODEL_KEY)
     public String header() {
         return this.header;
     }
 
-    @ModelAttribute(HEALTH_KEY)
+    @ModelAttribute(HEALTH_MODEL_KEY)
     private List<InspectionResult> inspectSystem() {
         return healthInspectors.stream().map(i -> executeInspector(i)).collect(toList());
     }
@@ -129,12 +101,6 @@ public class StatusController {
             LOG.error(format(ROOT, "error running healthInspector %s", inspector.getName()), t);
             return new InspectionResult(inspector.getName(), false, "execution of inspector failed");
         }
-    }
-
-    private String uptime() {
-        long uptimeInMs = getRuntimeMXBean().getUptime();
-        Duration duration = Duration.ofMillis(uptimeInMs);
-        return duration.toString();
     }
 
     public void setPageTitle(String pageTitle) {
