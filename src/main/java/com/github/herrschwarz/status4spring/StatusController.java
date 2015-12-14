@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.github.herrschwarz.status4spring.StatusModelKeys.*;
+import static com.github.herrschwarz.status4spring.StatusViewNames.INTERNAL_BUILD_VIEW_NAME;
 import static com.github.herrschwarz.status4spring.StatusViewNames.INTERNAL_STATUS_VIEW_NAME;
 import static com.github.herrschwarz.status4spring.StatusViewNames.INTERNAL_VERSION_VIEW_NAME;
 import static java.lang.Double.valueOf;
@@ -37,10 +38,11 @@ public class StatusController {
 
     private String pageTitle = "Status";
     private String version;
+    private String build;
     private String header;
     private List<HealthInspector> healthInspectors = new ArrayList<>();
-    private Map<String, String> customHeaderEntries = ImmutableMap.of();
 
+    private Map<String, String> customHeaderEntries = ImmutableMap.of();
     private static final Logger LOG = getLogger(lookup().lookupClass());
 
     public StatusController() {
@@ -54,6 +56,11 @@ public class StatusController {
     @RequestMapping(value = "/internal/version")
     public ModelAndView showVersion() {
         return new ModelAndView(INTERNAL_VERSION_VIEW_NAME);
+    }
+
+    @RequestMapping(value = "/internal/build")
+    public ModelAndView showBuild() {
+        return new ModelAndView(INTERNAL_BUILD_VIEW_NAME);
     }
 
     @RequestMapping(value = "/internal/health")
@@ -101,6 +108,11 @@ public class StatusController {
         return this.version;
     }
 
+    @ModelAttribute(BUILD_KEY)
+    public String build() {
+        return this.build;
+    }
+
     @ModelAttribute(HEADER_KEY)
     public String header() {
         return this.header;
@@ -132,6 +144,9 @@ public class StatusController {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+    public void setBuild(String build) {
+        this.build = build;
     }
 
     public void setHeader(String header) {

@@ -8,7 +8,8 @@
     <div class="navbar-header">
       <ul class="nav navbar-nav">
         <li><a href="/internal/status">Status</a></li>
-        <li><a href="/internal/version">Version</a></li>
+        <li th:if="${version}"><a href="/internal/version">Version</a></li>
+        <li th:if="${build}"><a href="/internal/build">Build</a></li>
         <li><a href="/internal/health">Health</a></li>
         <th:block>
           <li th:each="entry : ${customHeaderEntries}"><a th:href="${entry.value}" th:text="${entry.key}"></a></li>

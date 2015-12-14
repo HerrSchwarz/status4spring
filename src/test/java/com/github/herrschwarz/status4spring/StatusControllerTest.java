@@ -5,8 +5,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.web.servlet.ModelAndView;
 
-import static com.github.herrschwarz.status4spring.StatusViewNames.INTERNAL_STATUS_VIEW_NAME;
-import static com.github.herrschwarz.status4spring.StatusViewNames.INTERNAL_VERSION_VIEW_NAME;
+import static com.github.herrschwarz.status4spring.StatusViewNames.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -35,6 +34,18 @@ public class StatusControllerTest {
 
         // Then
         assertThat("View name is wrong", modelAndView.getViewName(), is(INTERNAL_VERSION_VIEW_NAME));
+    }
+
+    @Test
+    public void shouldSelectBuildViewNameForBuildPage() throws Exception {
+        // Given
+        StatusController statusController = new StatusController();
+
+        // When
+        ModelAndView modelAndView = statusController.showBuild();
+
+        // Then
+        assertThat("View name is wrong", modelAndView.getViewName(), is(INTERNAL_BUILD_VIEW_NAME));
     }
 
 }
