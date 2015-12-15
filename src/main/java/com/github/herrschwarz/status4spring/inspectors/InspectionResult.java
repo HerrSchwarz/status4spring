@@ -6,6 +6,11 @@ public class InspectionResult {
   private boolean success;
   private String description;
 
+  /**
+   * @param name of the inspector, will be displayed on status page
+   * @param success indicates, if the inspection was successful
+   * @param description here you can describe the success or failure
+   */
   public InspectionResult(String name, boolean success, String description) {
     this.name = name;
     this.success = success;

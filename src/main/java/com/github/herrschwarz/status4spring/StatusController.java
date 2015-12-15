@@ -26,14 +26,13 @@ import static org.slf4j.LoggerFactory.getLogger;
 @Controller
 public class StatusController {
 
+    private static final Logger LOG = getLogger(lookup().lookupClass());
     private String pageTitle = "Status";
     private String version;
     private String build;
     private String header;
     private List<HealthInspector> healthInspectors = new ArrayList<>();
-
     private Map<String, String> customHeaderEntries = ImmutableMap.of();
-    private static final Logger LOG = getLogger(lookup().lookupClass());
 
     public StatusController() {
     }
@@ -103,14 +102,31 @@ public class StatusController {
         }
     }
 
+    /**
+     * Sets the page title of the status page
+     *
+     * @param pageTitle
+     */
     public void setPageTitle(String pageTitle) {
         this.pageTitle = pageTitle;
     }
 
+    /**
+     * version will be displayed on the status page and can be called via /internal/version
+     * You can use this to check the currently installed version of your software and check
+     * the version after your deployment (e.g. with puppet, chef or ansible)
+     * @param version
+     */
     public void setVersion(String version) {
         this.version = version;
     }
 
+    /**
+     * build will be displayed on the status page and can be called via /internal/build
+     * You can use this to check the currently installed build of your software and check
+     * the build number after your deployment (e.g. with puppet, chef or ansible).
+     * @param build
+     */
     public void setBuild(String build) {
         this.build = build;
     }
@@ -119,10 +135,20 @@ public class StatusController {
         this.header = header;
     }
 
+    /**
+     * You can add health inspectors to check your system. It is possible to create your own inspectors.
+     * Just implement the {@link com.github.herrschwarz.status4spring.inspectors.HealthInspector} interface.
+     * @param inspector
+     */
     public void addHealthInspector(HealthInspector inspector) {
         healthInspectors.add(inspector);
     }
 
+    /**
+     * If you set customHeaderEntries the statusController will render additional entries
+     * in the header menu. You can place links to e.g. metric systems or log aggregation here.
+     * @param customHeaderEntries   Map&lt;text,url&gt;
+     */
     public void setCustomHeaderEntries(Map<String, String> customHeaderEntries) {
         this.customHeaderEntries = customHeaderEntries;
     }
