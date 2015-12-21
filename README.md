@@ -67,3 +67,4 @@ Status4spring is released to maven central:
 - make urls configurable
 - Documentation
 - more health inspectors
+- See Issues
