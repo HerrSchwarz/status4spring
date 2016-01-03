@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title th:text="${sessionPageTitle}">Status</title>
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<th:block>
+    <div th:include="header :: header"/>
+</th:block>
+<div class="container">
+  <h1 th:text="#{session_page_headline}">Status</h1>
+  <div class="content">
+    <table class="table table-hover table-bordered">
+      <tr><td>SessionID:</td><td th:text="${sessionId}"></td></tr>
+      <tr><td>Session creation time:</td><td th:text="${sessionCreationTime}"></td></tr>
+    </table>
+  </div>
+  <div class="content">
+    <table class="table table-striped table-hover table-bordered">
+      <thead class="thead-inverse">
+        <tr>
+          <th>Key</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr th:each="attribute : ${sessionAttributes}">
+        <td th:text="${attribute.key}"></td>
+        <td th:text="${attribute.value}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

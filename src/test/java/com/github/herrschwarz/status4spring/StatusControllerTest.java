@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.web.servlet.ModelAndView;
 
-import static com.github.herrschwarz.status4spring.StatusViewNames.*;
+import static com.github.herrschwarz.status4spring.ViewNames.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 

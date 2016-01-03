@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
+import static com.github.herrschwarz.status4spring.SessionModelKeys.SESSION_ATTRIBUTES_MODEL_KEY;
+import static com.github.herrschwarz.status4spring.SessionModelKeys.SESSION_CREATION_TIME_MODEL_KEY;
+import static com.github.herrschwarz.status4spring.SessionModelKeys.SESSION_ID_MODEL_KEY;
+import static com.github.herrschwarz.status4spring.SessionUtil.generateSessionAttributeMap;
 import static com.github.herrschwarz.status4spring.StatusModelKeys.*;
-import static com.github.herrschwarz.status4spring.StatusViewNames.*;
+import static com.github.herrschwarz.status4spring.ViewNames.*;
 import static java.lang.String.format;
 import static java.lang.invoke.MethodHandles.lookup;
 import static java.util.Locale.ROOT;
@@ -31,6 +34,7 @@ public class StatusController {
     private String version;
     private String build;
     private String header;
+    private boolean sessionEnabled;
     private List<HealthInspector> healthInspectors = new ArrayList<>();
     private Map<String, String> customHeaderEntries = ImmutableMap.of();
 
@@ -56,6 +60,16 @@ public class StatusController {
     @ResponseBody
     public Object showHealth() {
         return inspectSystem();
+    }
+
+    @RequestMapping(value = "/internal/session")
+    public ModelAndView session(HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView(INTERNAL_SESSION_VIEW_NAME);
+        Map<String, String> sessionAttributes = generateSessionAttributeMap(session);
+        modelAndView.addObject(SESSION_ATTRIBUTES_MODEL_KEY, sessionAttributes);
+        modelAndView.addObject(SESSION_ID_MODEL_KEY, session.getId());
+        modelAndView.addObject(SESSION_CREATION_TIME_MODEL_KEY, new Date(session.getCreationTime()).toString());
+        return modelAndView;
     }
 
     @ModelAttribute("status")
@@ -93,6 +107,11 @@ public class StatusController {
         return healthInspectors.stream().map(i -> executeInspector(i)).collect(toList());
     }
 
+    @ModelAttribute(SESSION_ENABLED_MODEL_KEY)
+    private boolean sessionEnabled() {
+        return sessionEnabled;
+    }
+
     private InspectionResult executeInspector(HealthInspector inspector) {
         try {
             return inspector.inspect();
@@ -105,7 +124,7 @@ public class StatusController {
     /**
      * Sets the page title of the status page
      *
-     * @param pageTitle
+     * @param pageTitle will be used as html title attribute
      */
     public void setPageTitle(String pageTitle) {
         this.pageTitle = pageTitle;
@@ -115,7 +134,8 @@ public class StatusController {
      * version will be displayed on the status page and can be called via /internal/version
      * You can use this to check the currently installed version of your software and check
      * the version after your deployment (e.g. with puppet, chef or ansible)
-     * @param version
+     *
+     * @param version will be shown as version
      */
     public void setVersion(String version) {
         this.version = version;
@@ -125,7 +145,8 @@ public class StatusController {
      * build will be displayed on the status page and can be called via /internal/build
      * You can use this to check the currently installed build of your software and check
      * the build number after your deployment (e.g. with puppet, chef or ansible).
-     * @param build
+     *
+     * @param build will be shown as buil
      */
     public void setBuild(String build) {
         this.build = build;
@@ -138,7 +159,7 @@ public class StatusController {
     /**
      * You can add health inspectors to check your system. It is possible to create your own inspectors.
      * Just implement the {@link com.github.herrschwarz.status4spring.inspectors.HealthInspector} interface.
-     * @param inspector
+     * @param inspector health inspector
      */
     public void addHealthInspector(HealthInspector inspector) {
         healthInspectors.add(inspector);
@@ -151,5 +172,12 @@ public class StatusController {
      */
     public void setCustomHeaderEntries(Map<String, String> customHeaderEntries) {
         this.customHeaderEntries = customHeaderEntries;
+    }
+
+    /**
+     * @param sessionEnabled if true, a link to the session page will be shown in the header
+     */
+    public void setSessionEnabled(boolean sessionEnabled) {
+        this.sessionEnabled = sessionEnabled;
     }
 }

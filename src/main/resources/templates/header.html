@@ -10,6 +10,7 @@
         <li th:if="${version}"><a th:href="@{/internal/version}">Version</a></li>
         <li th:if="${build}"><a th:href="@{/internal/build}">Build</a></li>
         <li><a th:href="@{/internal/health}">Health</a></li>
+        <li th:if="${sessionEnabled}"><a th:href="@{/internal/session}">Session</a></li>
         <th:block>
           <li th:each="entry : ${customHeaderEntries}"><a th:href="${entry.value}" th:text="${entry.key}"></a></li>
         </th:block>
