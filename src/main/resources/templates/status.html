@@ -25,28 +25,36 @@
       <div class="tab-pane active" id="serverState">
         <h2 th:text="#{status_headline}">Server State</h2>
         <table class="table table-striped table-hover">
+          <tr th:if="${status.hostname}">
+            <td th:text="#{status_hostname_label}">Hostname</td>
+            <td th:text="${status.hostname}">unknown</td>
+          </tr>
+          <tr th:if="${status.ip}">
+            <td th:text="#{status_ip_label}">IP</td>
+            <td th:text="${status.ip}">unknown</td>
+          </tr>
           <tr>
-            <td th:text="#{status_time_label}">Server Zeit:</td>
+            <td th:text="#{status_time_label}">Server Zeit</td>
             <td th:text="${#calendars.format(#calendars.createNow(),'yyyy-MM-dd HH:mm:ss.sss')}"></td>
           </tr>
           <tr th:if="${version}">
-            <td th:text="#{status_version_label}">Version:</td>
+            <td th:text="#{status_version_label}">Version</td>
             <td th:text="${version}">version</td>
           </tr>
           <tr>
-            <td th:text="#{status_starttime_label}">Starttime:</td>
+            <td th:text="#{status_starttime_label}">Starttime</td>
             <td th:text="${status.starttime}"></td>
           </tr>
           <tr>
-            <td th:text="#{status_uptime_label}">Uptime:</td>
+            <td th:text="#{status_uptime_label}">Uptime</td>
             <td th:text="${status.uptime}"></td>
           </tr>
           <tr>
-            <td th:text="#{status_classpath_label}">Classpath:</td>
+            <td th:text="#{status_classpath_label}">Classpath</td>
             <td th:text="${status.classpath}"></td>
           </tr>
           <tr>
-            <td th:text="#{status_threadCount_label}">Number of threads:</td>
+            <td th:text="#{status_threadCount_label}">Number of threads</td>
             <td th:text="${status.threadCount}"></td>
           </tr>
           <tr>

@@ -2,6 +2,8 @@ package com.github.herrschwarz.status4spring;
 
 import org.springframework.ui.ModelMap;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.Duration;
 import java.util.Date;
 
@@ -16,6 +18,8 @@ public class StatusUtil {
 
     static ModelMap getStatusMap() {
         ModelMap model = new ModelMap();
+        model.put("hostname", hostname());
+        model.put("ip", ip());
         model.put("starttime", new Date(getRuntimeMXBean().getStartTime()).toString());
         model.put("classpath", getRuntimeMXBean().getClassPath());
         model.put("freeMemory", getRuntime().freeMemory());
@@ -33,6 +37,22 @@ public class StatusUtil {
         model.put("environmentVariables", getenv());
         model.put("uptime", uptime());
         return model;
+    }
+
+    private static String hostname() {
+        try {
+            return InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            return "unknown";
+        }
+    }
+
+    private static String ip() {
+        try {
+            return InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            return "unknown";
+        }
     }
 
     private static String uptime() {
