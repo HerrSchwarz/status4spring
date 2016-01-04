@@ -19,6 +19,7 @@
       <li class="active"><a style="outline: 0" href="#serverState" data-toggle="tab">Status</a></li>
       <li ><a style="outline: 0"  href="#systemProperties" data-toggle="tab">System Properties</a></li>
       <li ><a style="outline: 0"  href="#envVariables" data-toggle="tab">Envirnonment Variables</a></li>
+      <li ><a style="outline: 0"  href="#caches" data-toggle="tab">Caches</a></li>
       <li ><a style="outline: 0"  href="#health" data-toggle="tab">Health</a></li>
     </ul>
     <div id="my-tab-content" class="tab-content">
@@ -120,10 +121,25 @@
           </tr>
         </table>
       </div>
+      <div class="tab-pane" id="caches">
+        <h2 th:text="#{status_caches_headline}">
+          Caches
+        </h2>
+        <p th:text="#{status_caches_text}">Caches will be displayed after first use.</p>
+        <div class="">
+        <table class="table table-striped table-hover">
+          <th th:text="#{status_healthName_tableHead}">Name</th>
+          <tr th:each="cacheName : ${cacheNames}">
+            <td th:text="${cacheName}"></td>
+          </tr>
+        </table>
+        </div>
+      </div>
       <div class="tab-pane" id="health">
         <h2 th:text="#{status_health_headline}">
           Health
         </h2>
+
         <table class="table table-striped table-hover">
           <th th:text="#{status_healthName_tableHead}">Health Check</th>
           <th th:text="#{status_health_tableHead}">Health</th>

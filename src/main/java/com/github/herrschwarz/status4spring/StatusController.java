@@ -2,8 +2,10 @@ package com.github.herrschwarz.status4spring;
 
 import com.github.herrschwarz.status4spring.inspectors.HealthInspector;
 import com.github.herrschwarz.status4spring.inspectors.InspectionResult;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,9 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
-import static com.github.herrschwarz.status4spring.SessionModelKeys.SESSION_ATTRIBUTES_MODEL_KEY;
-import static com.github.herrschwarz.status4spring.SessionModelKeys.SESSION_CREATION_TIME_MODEL_KEY;
-import static com.github.herrschwarz.status4spring.SessionModelKeys.SESSION_ID_MODEL_KEY;
+import static com.github.herrschwarz.status4spring.SessionModelKeys.*;
 import static com.github.herrschwarz.status4spring.SessionUtil.generateSessionAttributeMap;
 import static com.github.herrschwarz.status4spring.StatusModelKeys.*;
 import static com.github.herrschwarz.status4spring.ViewNames.*;
@@ -37,6 +37,7 @@ public class StatusController {
     private boolean sessionEnabled;
     private List<HealthInspector> healthInspectors = new ArrayList<>();
     private Map<String, String> customHeaderEntries = ImmutableMap.of();
+    private Optional<CacheManager> cacheManager = Optional.empty();
 
     public StatusController() {
     }
@@ -121,6 +122,11 @@ public class StatusController {
         }
     }
 
+    @ModelAttribute("cacheNames")
+    public Collection<String> cacheNames() {
+        return cacheManager.map(cM -> cM.getCacheNames()).orElse(ImmutableList.of());
+    }
+
     /**
      * Sets the page title of the status page
      *
@@ -146,7 +152,7 @@ public class StatusController {
      * You can use this to check the currently installed build of your software and check
      * the build number after your deployment (e.g. with puppet, chef or ansible).
      *
-     * @param build will be shown as buil
+     * @param build will be shown as build
      */
     public void setBuild(String build) {
         this.build = build;
@@ -179,5 +185,12 @@ public class StatusController {
      */
     public void setSessionEnabled(boolean sessionEnabled) {
         this.sessionEnabled = sessionEnabled;
+    }
+
+    /**
+     * @param cacheManager will be used to display some information about the caches in the cache tab
+     */
+    public void setCacheManager(CacheManager cacheManager) {
+        this.cacheManager = Optional.of(cacheManager);
     }
 }
