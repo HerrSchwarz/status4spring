@@ -1,11 +1,12 @@
 package com.github.herrschwarz.status4spring;
 
+import com.github.herrschwarz.status4spring.cache.CacheStats;
+import com.github.herrschwarz.status4spring.cache.CacheStatsProvider;
 import com.github.herrschwarz.status4spring.inspectors.HealthInspector;
 import com.github.herrschwarz.status4spring.inspectors.InspectionResult;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
-import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -37,7 +38,7 @@ public class StatusController {
     private boolean sessionEnabled;
     private List<HealthInspector> healthInspectors = new ArrayList<>();
     private Map<String, String> customHeaderEntries = ImmutableMap.of();
-    private Optional<CacheManager> cacheManager = Optional.empty();
+    private Optional<CacheStatsProvider> cacheStatsProvider = Optional.empty();
 
     public StatusController() {
     }
@@ -122,9 +123,9 @@ public class StatusController {
         }
     }
 
-    @ModelAttribute("cacheNames")
-    public Collection<String> cacheNames() {
-        return cacheManager.map(cM -> cM.getCacheNames()).orElse(ImmutableList.of());
+    @ModelAttribute(CACHE_STATS)
+    public List<CacheStats> cacheNames() {
+        return cacheStatsProvider.map(provider -> provider.getCacheStats()).orElse(ImmutableList.of());
     }
 
     /**
@@ -188,9 +189,13 @@ public class StatusController {
     }
 
     /**
-     * @param cacheManager will be used to display some information about the caches in the cache tab
+     * @param cacheStatsProvider will be used to display some information about the caches in the cache tab.
+     *                           You can use the ConcurrentMapCacheStatsProvider, which can be used for
+     *                           ConcurrentMapCaches as used with the @Cachable in SpringBoot.
+     *                           The ConcurrentMapCacheStatsProvider provides Name and number of entries.
+     *                           You can also implement your own CacheStatsProvider
      */
-    public void setCacheManager(CacheManager cacheManager) {
-        this.cacheManager = Optional.of(cacheManager);
+    public void setCacheStatsProvider(CacheStatsProvider cacheStatsProvider) {
+        this.cacheStatsProvider = Optional.of(cacheStatsProvider);
     }
 }

@@ -1,15 +1,15 @@
 package com.github.herrschwarz.status4spring.inspectors;
 
+import org.slf4j.Logger;
+
+import java.io.IOException;
+import java.net.Socket;
+
 import static java.lang.String.format;
 import static java.lang.invoke.MethodHandles.lookup;
 import static java.util.Locale.ENGLISH;
 import static java.util.Locale.ROOT;
 import static org.slf4j.LoggerFactory.getLogger;
-
-import org.slf4j.Logger;
-
-import java.io.IOException;
-import java.net.Socket;
 
 public class HostInspector implements HealthInspector {
 
@@ -34,7 +34,7 @@ public class HostInspector implements HealthInspector {
       reachable = true;
     } catch (IOException e) {
       message = format(ENGLISH, "Could not reach host %s on port %d", host, port);
-      LOG.error(message, e);
+      LOG.error(message);
     } finally {
       if (socket != null) {
         try {
