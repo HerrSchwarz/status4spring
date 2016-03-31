@@ -18,6 +18,7 @@ Status controller for spring applications. Can provide various information like:
 - OS information (arch, name, version)
 - system properties
 - environment variables
+- cache statistics
 - results of health checks
 
 Status4spring comes with two health inspectors:
@@ -25,6 +26,8 @@ Status4spring comes with two health inspectors:
 - check if a host is reachable on a certain port
 - check if a mongodb is ok
 - you can implement your own health inspectors
+
+There is CacheStatsProvider for caches using ConcurrentHashMaps. This is the standard cache used in Spring Boot. You can implement your own CacheStatsProvider, if you are using something else.
 
 ## Requirements
 
