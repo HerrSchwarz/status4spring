@@ -11,7 +11,7 @@ import static java.util.stream.Collectors.toList;
 public class ConcurrentMapCacheStatsProvider implements CacheStatsProvider {
 
     private ConcurrentMapCacheManager cacheManager;
-    private static final String TYPE = "Spring Cache";
+    private static final String TYPE = "Concurrent map cache";
 
     public ConcurrentMapCacheStatsProvider(ConcurrentMapCacheManager cacheManager) {
         this.cacheManager = cacheManager;
