@@ -4,9 +4,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.nullValue;
 
+import com.github.herrschwarz.status4spring.groups.UnitTest;
+
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.springframework.ui.ModelMap;
 
+@Category(UnitTest.class)
 public final class StatusUtilTest {
 
   @Test
