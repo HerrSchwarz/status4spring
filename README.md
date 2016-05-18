@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/HerrSchwarz/status4spring.svg)](https://travis-ci.org/HerrSchwarz/status4spring)
 
+[![Dependency Status](https://www.versioneye.com/user/projects/573c9c5fce8d0e004505e902/badge.svg?style=flat)](https://www.versioneye.com/user/projects/573c9c5fce8d0e004505e902)
+
 There is a [Spring Boot example](https://github.com/herrschwarz/status4springExampleSpringBoot) available. Clone the repo, run 'mvn spring-boot:run' and have a look at [http://localhost:8080/internal/status](http://localhost:8080/internal/status)
 
 The status controller is in an early stage and should be considered unfinished.
