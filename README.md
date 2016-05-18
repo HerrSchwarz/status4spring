@@ -71,3 +71,7 @@ Status4spring is released to maven central:
 - Documentation
 - more health inspectors
 - See Issues
+
+## License
+
+This software is distributed under the [MIT License](LICENSE.md).
