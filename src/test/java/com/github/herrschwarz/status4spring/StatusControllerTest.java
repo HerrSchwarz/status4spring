@@ -1,5 +1,6 @@
 package com.github.herrschwarz.status4spring;
 
+import com.github.herrschwarz.status4spring.cache.CacheStatsProvider;
 import com.github.herrschwarz.status4spring.groups.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -18,6 +19,9 @@ import static org.hamcrest.collection.IsMapContaining.hasKey;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.nullValue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @Category(UnitTest.class)
 public class StatusControllerTest {
@@ -118,5 +122,14 @@ public class StatusControllerTest {
         assertThat(modelMap, not(nullValue()));
         assertThat(modelMap, hasKey(SESSION_CREATION_TIME_MODEL_KEY));
         assertThat(modelMap.get(SESSION_CREATION_TIME_MODEL_KEY), is(new Date(session.getCreationTime()).toString()));
+    }
+
+    @Test
+    public void shouldCallCacheProviderOnClear() throws Exception {
+        StatusController statusController = new StatusController();
+        CacheStatsProvider cacheStatsProviderMock = mock(CacheStatsProvider.class);
+        statusController.setCacheStatsProvider(cacheStatsProviderMock);
+        statusController.clearCache("test");
+        verify(cacheStatsProviderMock, times(1)).clearCache("test");
     }
 }

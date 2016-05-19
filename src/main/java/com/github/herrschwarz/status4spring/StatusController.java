@@ -9,9 +9,7 @@ import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -26,6 +24,7 @@ import static java.lang.invoke.MethodHandles.lookup;
 import static java.util.Locale.ROOT;
 import static java.util.stream.Collectors.toList;
 import static org.slf4j.LoggerFactory.getLogger;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 public class StatusController {
@@ -71,6 +70,14 @@ public class StatusController {
         modelAndView.addObject(SESSION_ATTRIBUTES_MODEL_KEY, sessionAttributes);
         modelAndView.addObject(SESSION_ID_MODEL_KEY, session.getId());
         modelAndView.addObject(SESSION_CREATION_TIME_MODEL_KEY, new Date(session.getCreationTime()).toString());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/internal/cache/clear/{cacheName}", method = POST)
+    public ModelAndView clearCache(@PathVariable(value = "cacheName") String cacheName) {
+        Optional<Long> deletedEntries = cacheStatsProvider.map(p -> p.clearCache(cacheName));
+        ModelAndView modelAndView = new ModelAndView("redirect:/internal/status");
+        modelAndView.addObject("info", "Cache " + cacheName + "cleared, " + deletedEntries + "deleted");
         return modelAndView;
     }
 

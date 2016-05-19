@@ -1,5 +1,6 @@
 package com.github.herrschwarz.status4spring.cache;
 
+import org.springframework.cache.Cache;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 
@@ -23,6 +24,14 @@ public class ConcurrentMapCacheStatsProvider implements CacheStatsProvider {
                 .stream()
                 .map(this::computeStats)
                 .collect(toList());
+    }
+
+    @Override
+    public Long clearCache(String name) {
+        Cache cache = cacheManager.getCache(name);
+        Long count = ((ConcurrentHashMap) cache.getNativeCache()).mappingCount();
+        cache.clear();
+        return count;
     }
 
     private CacheStats computeStats(String name) {
