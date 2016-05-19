@@ -1,6 +1,6 @@
 # status4spring
 
-[![Build Status](https://travis-ci.org/HerrSchwarz/status4spring.svg)](https://travis-ci.org/HerrSchwarz/status4spring) [![codecov](https://codecov.io/gh/HerrSchwarz/status4spring/branch/develop/graph/badge.svg)](https://codecov.io/gh/HerrSchwarz/status4spring) [![Dependency Status](https://www.versioneye.com/user/projects/573c9c5fce8d0e004505e902/badge.svg?style=flat)](https://www.versioneye.com/user/projects/573c9c5fce8d0e004505e902)
+[![Build Status](https://travis-ci.org/HerrSchwarz/status4spring.svg)](https://travis-ci.org/HerrSchwarz/status4spring) [![Build Status](https://drone.io/github.com/HerrSchwarz/status4spring/status.png)](https://drone.io/github.com/HerrSchwarz/status4spring/latest) [![codecov](https://codecov.io/gh/HerrSchwarz/status4spring/branch/develop/graph/badge.svg)](https://codecov.io/gh/HerrSchwarz/status4spring) [![Dependency Status](https://www.versioneye.com/user/projects/573c9c5fce8d0e004505e902/badge.svg?style=flat)](https://www.versioneye.com/user/projects/573c9c5fce8d0e004505e902)
 
 There is a [Spring Boot example](https://github.com/herrschwarz/status4springExampleSpringBoot) available. Clone the repo, run 'mvn spring-boot:run' and have a look at [http://localhost:8080/internal/status](http://localhost:8080/internal/status)
 
