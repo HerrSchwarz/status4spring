@@ -14,6 +14,10 @@
 </th:block>
 <div class="container">
   <h1 th:text="#{status_page_headline}">Status</h1>
+  <span th:text="${info}">test</span>
+  <div th:if="${info}" class="content">
+    <div class="alert alert-success" role="alert" th:text="${info}"></div>
+  </div>
   <div class="content">
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a style="outline: 0" href="#serverState" data-toggle="tab">Status</a></li>
@@ -130,13 +134,19 @@
         <table class="table table-striped table-hover">
           <th th:text="#{status_cacheName_tableHead}">Name</th>
           <th th:text="#{status_cacheType_tableHead}">Type</th>
-          <th th:text="#{status_cacheHits_tableHead}">Entries</th>
+          <th th:text="#{status_cacheHits_tableHead}">Hits</th>
           <th th:text="#{status_cacheEntries_tableHead}">Entries</th>
+          <th th:text="#{status_clearCache_tableHead}">Clear</th>
           <tr th:each="stats : ${cacheStats}">
             <td th:text="${stats.name}"></td>
             <td th:text="${stats.type}"></td>
             <td th:text="${stats.numberOfHits != null} ? ${stats.numberOfHits } : #{status_cache_unknown}"></td>
             <td th:text="${stats.numberOfEntries != null} ? ${stats.numberOfEntries } : #{status_cache_unknown}"></td>
+            <td>
+              <form th:action="@{/internal/cache/clear/} + ${stats.name}" method="POST" role="form">
+                <button type="submit" class="btn btn-danger" th:text="#{status_clearCache_button}">Clear</button>
+              </form>
+            </td>
           </tr>
         </table>
         </div>

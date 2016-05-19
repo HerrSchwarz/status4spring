@@ -5,5 +5,6 @@ import java.util.List;
 public interface CacheStatsProvider {
 
     public List<CacheStats> getCacheStats();
+    public Long clearCache(String name);
 
 }
