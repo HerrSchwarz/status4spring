@@ -18,6 +18,8 @@ import java.util.concurrent.ConcurrentMap;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
@@ -78,6 +80,30 @@ public class ConcurrentMapCacheStatsProviderTest {
 
         // Then
         assertThat(cacheStats.getNumberOfEntries(), is(2));
+    }
+
+    @Test
+    public void shouldClearCache() throws Exception {
+        // Given
+        ConcurrentMapCacheStatsProvider statsProvider = new ConcurrentMapCacheStatsProvider(cacheManager);
+
+        // When
+        statsProvider.clearCache("test");
+
+        // Then
+        verify(cache, times(1)).clear();
+    }
+
+    @Test
+    public void shouldReturnNumberOfDeletedEntries() throws Exception {
+        // Given
+        ConcurrentMapCacheStatsProvider statsProvider = new ConcurrentMapCacheStatsProvider(cacheManager);
+
+        // When
+        Long deletedEntries = statsProvider.clearCache("test");
+
+        // Then
+        assertThat(deletedEntries, is(2L));
     }
 
 }
