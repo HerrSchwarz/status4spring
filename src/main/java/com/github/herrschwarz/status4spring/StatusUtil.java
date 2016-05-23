@@ -1,12 +1,5 @@
 package com.github.herrschwarz.status4spring;
 
-import org.springframework.ui.ModelMap;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.time.Duration;
-import java.util.Date;
-
 import static java.lang.Double.valueOf;
 import static java.lang.Runtime.getRuntime;
 import static java.lang.System.getenv;
@@ -14,9 +7,16 @@ import static java.lang.Thread.activeCount;
 import static java.lang.management.ManagementFactory.getOperatingSystemMXBean;
 import static java.lang.management.ManagementFactory.getRuntimeMXBean;
 
+import org.springframework.ui.ModelMap;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.time.Duration;
+import java.util.Date;
+
 public class StatusUtil {
 
-    static ModelMap getStatusMap() {
+    public static ModelMap getStatusMap() {
         ModelMap model = new ModelMap();
         model.put("hostname", hostname());
         model.put("ip", ip());
