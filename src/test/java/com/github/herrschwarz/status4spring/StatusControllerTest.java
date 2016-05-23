@@ -45,6 +45,8 @@ public class StatusControllerTest {
     private static final String INSPECTOR_NAME = "inspector gadget";
     private static final boolean INSPECTION_RESULT = true;
     private static final String INSPECTION_DESCRIPTION = "description";
+    private static final boolean INSPECTION_ERROR = false;
+    private static final String EXECUTION_OF_INSPECTOR_FAILED = "execution of inspector failed";
 
     @Test
     public void shouldSelectStatusViewNameForStatusPage() throws Exception {
@@ -175,5 +177,26 @@ public class StatusControllerTest {
         assertThat(inspectionResult.getName(), is(INSPECTOR_NAME));
         assertThat(inspectionResult.isSuccessful(), is(INSPECTION_RESULT));
         assertThat(inspectionResult.getDescription(), is(INSPECTION_DESCRIPTION));
+    }
+
+    @Test
+    public void should() {
+        // Given
+        StatusController statusController = new StatusController();
+        HealthInspector inspector = mock(HealthInspector.class);
+        statusController.addHealthInspector(inspector);
+        when(inspector.getName()).thenReturn(INSPECTOR_NAME);
+        when(inspector.inspect()).thenThrow(new RuntimeException());
+
+        // When
+        List<InspectionResult> inspectionResults = statusController.inspectSystem();
+
+        // Then
+        assertThat(inspectionResults, is(notNullValue()));
+        assertThat(inspectionResults, hasSize(1));
+        InspectionResult inspectionResult = inspectionResults.get(0);
+        assertThat(inspectionResult.getName(), is(INSPECTOR_NAME));
+        assertThat(inspectionResult.isSuccessful(), is(INSPECTION_ERROR));
+        assertThat(inspectionResult.getDescription(), is(EXECUTION_OF_INSPECTOR_FAILED));
     }
 }
