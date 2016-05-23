@@ -1,30 +1,51 @@
 package com.github.herrschwarz.status4spring;
 
-import com.github.herrschwarz.status4spring.cache.CacheStats;
-import com.github.herrschwarz.status4spring.cache.CacheStatsProvider;
-import com.github.herrschwarz.status4spring.inspectors.HealthInspector;
-import com.github.herrschwarz.status4spring.inspectors.InspectionResult;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import org.slf4j.Logger;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpSession;
-import java.util.*;
-
-import static com.github.herrschwarz.status4spring.SessionModelKeys.*;
+import static com.github.herrschwarz.status4spring.SessionModelKeys.SESSION_ATTRIBUTES_MODEL_KEY;
+import static com.github.herrschwarz.status4spring.SessionModelKeys.SESSION_CREATION_TIME_MODEL_KEY;
+import static com.github.herrschwarz.status4spring.SessionModelKeys.SESSION_ID_MODEL_KEY;
 import static com.github.herrschwarz.status4spring.SessionUtil.generateSessionAttributeMap;
-import static com.github.herrschwarz.status4spring.StatusModelKeys.*;
-import static com.github.herrschwarz.status4spring.ViewNames.*;
+import static com.github.herrschwarz.status4spring.StatusModelKeys.BUILD_MODEL_KEY;
+import static com.github.herrschwarz.status4spring.StatusModelKeys.CACHE_STATS;
+import static com.github.herrschwarz.status4spring.StatusModelKeys.CUSTOM_HEADER_ENTRIES_MODEL_KEY;
+import static com.github.herrschwarz.status4spring.StatusModelKeys.HEADER_MODEL_KEY;
+import static com.github.herrschwarz.status4spring.StatusModelKeys.HEALTH_MODEL_KEY;
+import static com.github.herrschwarz.status4spring.StatusModelKeys.PAGE_TITLE_MODEL_KEY;
+import static com.github.herrschwarz.status4spring.StatusModelKeys.SESSION_ENABLED_MODEL_KEY;
+import static com.github.herrschwarz.status4spring.StatusModelKeys.VERSION_MODEL_KEY;
+import static com.github.herrschwarz.status4spring.ViewNames.INTERNAL_BUILD_VIEW_NAME;
+import static com.github.herrschwarz.status4spring.ViewNames.INTERNAL_SESSION_VIEW_NAME;
+import static com.github.herrschwarz.status4spring.ViewNames.INTERNAL_STATUS_VIEW_NAME;
+import static com.github.herrschwarz.status4spring.ViewNames.INTERNAL_VERSION_VIEW_NAME;
 import static java.lang.String.format;
 import static java.lang.invoke.MethodHandles.lookup;
 import static java.util.Locale.ROOT;
 import static java.util.stream.Collectors.toList;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
+import com.github.herrschwarz.status4spring.cache.CacheStats;
+import com.github.herrschwarz.status4spring.cache.CacheStatsProvider;
+import com.github.herrschwarz.status4spring.inspectors.HealthInspector;
+import com.github.herrschwarz.status4spring.inspectors.InspectionResult;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+
+import org.slf4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class StatusController {
@@ -38,9 +59,6 @@ public class StatusController {
     private List<HealthInspector> healthInspectors = new ArrayList<>();
     private Map<String, String> customHeaderEntries = ImmutableMap.of();
     private Optional<CacheStatsProvider> cacheStatsProvider = Optional.empty();
-
-    public StatusController() {
-    }
 
     @RequestMapping(value = "/internal/status")
     public ModelAndView showStatus() {
@@ -112,13 +130,18 @@ public class StatusController {
     }
 
     @ModelAttribute(HEALTH_MODEL_KEY)
-    private List<InspectionResult> inspectSystem() {
+    public List<InspectionResult> inspectSystem() {
         return healthInspectors.stream().map(i -> executeInspector(i)).collect(toList());
     }
 
     @ModelAttribute(SESSION_ENABLED_MODEL_KEY)
-    private boolean sessionEnabled() {
+    public boolean sessionEnabled() {
         return sessionEnabled;
+    }
+
+    @ModelAttribute(CACHE_STATS)
+    public List<CacheStats> cacheNames() {
+        return cacheStatsProvider.map(provider -> provider.getCacheStats()).orElse(ImmutableList.of());
     }
 
     private InspectionResult executeInspector(HealthInspector inspector) {
@@ -128,11 +151,6 @@ public class StatusController {
             LOG.error(format(ROOT, "error running healthInspector %s", inspector.getName()), t);
             return new InspectionResult(inspector.getName(), false, "execution of inspector failed");
         }
-    }
-
-    @ModelAttribute(CACHE_STATS)
-    public List<CacheStats> cacheNames() {
-        return cacheStatsProvider.map(provider -> provider.getCacheStats()).orElse(ImmutableList.of());
     }
 
     /**
