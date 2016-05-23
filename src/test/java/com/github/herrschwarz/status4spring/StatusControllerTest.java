@@ -24,6 +24,7 @@ import com.github.herrschwarz.status4spring.groups.UnitTest;
 import com.github.herrschwarz.status4spring.inspectors.HealthInspector;
 import com.github.herrschwarz.status4spring.inspectors.InspectionResult;
 
+
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.mock.web.MockHttpSession;
@@ -142,10 +143,16 @@ public class StatusControllerTest {
 
     @Test
     public void shouldCallCacheProviderOnClear() throws Exception {
+        // Given
         StatusController statusController = new StatusController();
         CacheStatsProvider cacheStatsProviderMock = mock(CacheStatsProvider.class);
         statusController.setCacheStatsProvider(cacheStatsProviderMock);
-        statusController.clearCache("test");
+
+        // When
+        ModelAndView modelAndView = statusController.clearCache("test");
+
+        // Then
+        assertThat(modelAndView.getModelMap(), hasKey("info"));
         verify(cacheStatsProviderMock, times(1)).clearCache("test");
     }
 

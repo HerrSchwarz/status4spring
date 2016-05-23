@@ -1,7 +1,14 @@
 package com.github.herrschwarz.status4spring.cache;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.github.herrschwarz.status4spring.groups.UnitTest;
 import com.google.common.collect.ImmutableList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -15,12 +22,6 @@ import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(ConcurrentMapCache.class)
@@ -88,9 +89,10 @@ public class ConcurrentMapCacheStatsProviderTest {
         ConcurrentMapCacheStatsProvider statsProvider = new ConcurrentMapCacheStatsProvider(cacheManager);
 
         // When
-        statsProvider.clearCache("test");
+        Long deleted = statsProvider.clearCache("test");
 
         // Then
+        assertThat(deleted, is(2L));
         verify(cache, times(1)).clear();
     }
 
