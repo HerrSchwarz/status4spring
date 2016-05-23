@@ -8,16 +8,22 @@ import static com.github.herrschwarz.status4spring.ViewNames.INTERNAL_SESSION_VI
 import static com.github.herrschwarz.status4spring.ViewNames.INTERNAL_STATUS_VIEW_NAME;
 import static com.github.herrschwarz.status4spring.ViewNames.INTERNAL_VERSION_VIEW_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.collection.IsMapContaining.hasKey;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.github.herrschwarz.status4spring.cache.CacheStatsProvider;
 import com.github.herrschwarz.status4spring.groups.UnitTest;
+import com.github.herrschwarz.status4spring.inspectors.HealthInspector;
+import com.github.herrschwarz.status4spring.inspectors.InspectionResult;
+
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -26,6 +32,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -35,6 +42,9 @@ public class StatusControllerTest {
 
     public static final String ATTRIBUTE_KEY = "meaningOfDeath";
     public static final String ATTRIBUTE_VALUE = "666";
+    private static final String INSPECTOR_NAME = "inspector gadget";
+    private static final boolean INSPECTION_RESULT = true;
+    private static final String INSPECTION_DESCRIPTION = "description";
 
     @Test
     public void shouldSelectStatusViewNameForStatusPage() throws Exception {
@@ -120,6 +130,7 @@ public class StatusControllerTest {
         StatusController statusController = new StatusController();
         MockHttpSession session = new MockHttpSession();
 
+
         // When
         ModelAndView modelAndView = statusController.session(session);
 
@@ -143,5 +154,26 @@ public class StatusControllerTest {
         // Then
         assertThat(modelAndView.getModelMap(), hasKey("info"));
         verify(cacheStatsProviderMock, times(1)).clearCache("test");
+    }
+
+    @Test
+    public void shouldCallHealthInspectors() {
+        // Given
+        StatusController statusController = new StatusController();
+        HealthInspector inspector = mock(HealthInspector.class);
+        statusController.addHealthInspector(inspector);
+        InspectionResult result = new InspectionResult(INSPECTOR_NAME, INSPECTION_RESULT, INSPECTION_DESCRIPTION);
+        when(inspector.inspect()).thenReturn(result);
+
+        // When
+        List<InspectionResult> inspectionResults = statusController.inspectSystem();
+
+        // Then
+        assertThat(inspectionResults, is(notNullValue()));
+        assertThat(inspectionResults, hasSize(1));
+        InspectionResult inspectionResult = inspectionResults.get(0);
+        assertThat(inspectionResult.getName(), is(INSPECTOR_NAME));
+        assertThat(inspectionResult.isSuccessful(), is(INSPECTION_RESULT));
+        assertThat(inspectionResult.getDescription(), is(INSPECTION_DESCRIPTION));
     }
 }
