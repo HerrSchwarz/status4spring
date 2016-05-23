@@ -1,9 +1,14 @@
 package com.github.herrschwarz.status4spring.inspectors;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.when;
+
 import com.github.herrschwarz.status4spring.groups.UnitTest;
 import com.mongodb.CommandResult;
 import com.mongodb.DB;
 import com.mongodb.MongoException;
+
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -12,19 +17,15 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.HashSet;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.mockito.Mockito.when;
-
 @RunWith(MockitoJUnitRunner.class)
 @Category(UnitTest.class)
 public class MongoDbInspectorTest {
 
   @Mock
-  DB mongoDb;
+  private DB mongoDb;
 
   @Mock
-  CommandResult commandResult;
+  private CommandResult commandResult;
 
   @Test
   public void shouldDetectMissingMongoDB() throws Exception {
