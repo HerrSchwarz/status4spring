@@ -23,7 +23,7 @@ addons:
       name: HerrSchwarz/status4spring
       description: Status controller for Spring (Boot) web applications
     notification_email: felix@music-project.net
-    build_command_prepend: mvn install -DskipTests=true -Dmaven.javadoc.skip=true
+    build_command_prepend: mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true
       -B -V
     build_command: mvn test -B
     branch_pattern: coverity_scan
