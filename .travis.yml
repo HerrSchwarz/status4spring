@@ -1,16 +1,32 @@
 language: java
 
+jdk:
+- oraclejdk8
+
+env:
+  global:
+    secure: bt+22onnN78nxN0kQSDIykrvW8+RpbfW8d/jRUWjS1HmjfG4Lm9L96rhlrY0qNsvEVm4OEoEH9uSMa6HkfwNa0CGcyFcp7zdK9iGT4v5ZDtLdQZPTuVLDY2sUB09OhpU5bUSr/6YSiQyF02WUqe+w1r8k2Ra4+hDYLvtsyEyO6LXKzE1W51ga/mnwLiKc7ZWp2Bqx+IrmLMuVNxcH/3wm0P+UDXgfl2Q+Kt7jLYDXmeLmB3nJs1muLBstVGE8u713+W8afwK4tjXVlKRt/WP5zCKY5I3u+F1tBKc06onygXSOwRYGtUhamVszIR/5Nq0JNzlhSjz7eMgD4VaO42xidqCY7ERcDjsEUvfIzgCu2gMbPVqlWcGaMOxDQmLvyl13GvaVckkAx93K4tyR3hyNSitpZF06kyo4TFZ2yJrJYL6EhaW7pjWrYFHfOIw+x3COqKObFG1INeDCx59m0UE/NC95951EYvOShXYDm24ROkTk4F3OGK+yV0D+W1cHXzaYISaHFXqb3FjWMYADIFbQbcizbRBPlbWioGcmfH+4sGcXbm6CQaogKRSjPW5plMs2dUYCLj/c7b5NMpQ9fIALwB4Vm+IuYKz6RjWq3lPHqietpnGPO3Z8i3sXhyqPkNtgm8aAR5G4g1d1HPERbQ+v7YloJOAew8NT6NXcf7Yruc=
+
 branches:
   only:
-    - develop
-    - master
-    
-jdk:
-  - oraclejdk8
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - develop
+  - master
+  - coverity_scan
 
 cache:
   directories:
-  - $HOME/.m2
+  - "$HOME/.m2"
+
+addons:
+  coverity_scan:
+    project:
+      name: HerrSchwarz/status4spring
+      description: Status controller for Spring (Boot) web applications
+    notification_email: felix@music-project.net
+    build_command_prepend: mvn install -DskipTests=true -Dmaven.javadoc.skip=true
+      -B -V
+    build_command: mvn test -B
+    branch_pattern: coverity_scan
+
+after_success:
+- bash <(curl -s https://codecov.io/bash)
