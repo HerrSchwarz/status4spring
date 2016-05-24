@@ -38,7 +38,7 @@ If you use Spring boot with default template configuration (prefix=classpath:/te
 
 ## What you get
 
-You will get one page with different information:
+You will get pages with different information:
 
 - Status page
     -  with some information about your system incl. version of your project
@@ -52,6 +52,8 @@ You will find these pages:
 - ${application-root}/internal/status
 - ${application-root}/internal/version
 - ${application-root}/internal/health
+
+It is possible to integrate more pages, e.g. for testing purposes.
 
 ## Maven dependency
 
