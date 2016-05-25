@@ -25,7 +25,7 @@ addons:
     notification_email: felix@music-project.net
     build_command_prepend: mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true
       -B -V
-    build_command: mvn test -B
+    build_command: mvn clean test -B
     branch_pattern: coverity_scan
 
 after_success:
