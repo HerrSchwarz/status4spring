@@ -4,8 +4,8 @@ public class CacheStats {
 
     private String name;
     private String type;
-    private Integer numberOfHits;
-    private Integer numberOfEntries;
+    private Long numberOfHits;
+    private Long numberOfEntries;
 
     public String getName() {
         return name;
@@ -15,25 +15,25 @@ public class CacheStats {
         this.name = name;
     }
 
-    public Integer getNumberOfHits() {
+    public Long getNumberOfHits() {
         return numberOfHits;
     }
 
     /**
      * @param numberOfHits: null will be displayed as unkown
      */
-    public void setNumberOfHits(Integer numberOfHits) {
+    public void setNumberOfHits(Long numberOfHits) {
         this.numberOfHits = numberOfHits;
     }
 
-    public Integer getNumberOfEntries() {
+    public Long getNumberOfEntries() {
         return numberOfEntries;
     }
 
     /**
      * @param numberOfEntries null will be displayed as unkown
      */
-    public void setNumberOfEntries(Integer numberOfEntries) {
+    public void setNumberOfEntries(Long numberOfEntries) {
         this.numberOfEntries = numberOfEntries;
     }
 

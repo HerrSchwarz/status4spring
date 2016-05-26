@@ -40,7 +40,7 @@ public class ConcurrentMapCacheStatsProvider implements CacheStatsProvider {
         cacheStats.setName(name);
         cacheStats.setType(TYPE);
         Long count = ((ConcurrentHashMap) cache.getNativeCache()).mappingCount();
-        cacheStats.setNumberOfEntries(count.intValue());
+        cacheStats.setNumberOfEntries(count);
         return cacheStats;
     }
 }
