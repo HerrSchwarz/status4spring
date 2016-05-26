@@ -1,53 +1,51 @@
 package com.github.herrschwarz.status4spring.cache;
 
-import com.github.herrschwarz.status4spring.groups.UnitTest;
+import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.springframework.cache.concurrent.ConcurrentMapCache;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.cache.guava.GuavaCache;
+import org.springframework.cache.guava.GuavaCacheManager;
 
 import java.util.Collection;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(ConcurrentMapCache.class)
-@Category(UnitTest.class)
-public class ConcurrentMapCacheStatsProviderTest {
-
+@RunWith(MockitoJUnitRunner.class)
+public class GuavaCacheStatsProviderTest {
     private static final String CACHE_NAME = "test";
-    private static final String CACHE_TYPE = "Concurrent map cache";
+    private static final String CACHE_TYPE = "Guava Cache";
+    private static final long NUMER_OF_ENTRIES = 2L;
     private Collection<String> cacheNames = ImmutableList.of(CACHE_NAME);
-    private ConcurrentMap<Object, Object> concurrentHashMap = new ConcurrentHashMap<>();
 
     @Mock
-    private ConcurrentMapCacheManager cacheManager;
+    private GuavaCacheManager cacheManager;
     @Mock
-    private ConcurrentMapCache cache;
+    private Cache<Object, Object> cache;
+
+    private GuavaCache guavaCache;
 
     @Before
     public void setUp() {
-        concurrentHashMap.put("entry1", 42);
-        concurrentHashMap.put("entry2", 43);
+        guavaCache = new GuavaCache(CACHE_NAME, cache);
         when(cacheManager.getCacheNames()).thenReturn(cacheNames);
-        when(cacheManager.getCache(CACHE_NAME)).thenReturn(cache);
-        when(cache.getNativeCache()).thenReturn(concurrentHashMap);
+        when(cacheManager.getCache(CACHE_NAME)).thenReturn(guavaCache);
+        com.google.common.cache.CacheStats stats = new com.google.common.cache.CacheStats(1L, 2L, 3L, 4L, 5L, 6L);
+        when(cache.stats()).thenReturn(stats);
+        when(cache.size()).thenReturn(NUMER_OF_ENTRIES);
     }
 
     @Test
     public void shouldSetTheNameOfTheCache() throws Exception {
         // Given
-        ConcurrentMapCacheStatsProvider statsProvider = new ConcurrentMapCacheStatsProvider(cacheManager);
+        GuavaCacheStatsProvider statsProvider = new GuavaCacheStatsProvider(cacheManager);
 
         // When
         CacheStats cacheStats = statsProvider.getCacheStats().get(0);
@@ -59,7 +57,7 @@ public class ConcurrentMapCacheStatsProviderTest {
     @Test
     public void shouldSetTheTypeOfTheCache() throws Exception {
         // Given
-        ConcurrentMapCacheStatsProvider statsProvider = new ConcurrentMapCacheStatsProvider(cacheManager);
+        GuavaCacheStatsProvider statsProvider = new GuavaCacheStatsProvider(cacheManager);
 
         // When
         CacheStats cacheStats = statsProvider.getCacheStats().get(0);
@@ -71,32 +69,32 @@ public class ConcurrentMapCacheStatsProviderTest {
     @Test
     public void shouldSetTheNumberOfEntriesOfTheCache() throws Exception {
         // Given
-        ConcurrentMapCacheStatsProvider statsProvider = new ConcurrentMapCacheStatsProvider(cacheManager);
+        GuavaCacheStatsProvider statsProvider = new GuavaCacheStatsProvider(cacheManager);
 
         // When
         CacheStats cacheStats = statsProvider.getCacheStats().get(0);
 
         // Then
-        assertThat(cacheStats.getNumberOfEntries(), is(2L));
+        assertThat(cacheStats.getNumberOfEntries(), is(NUMER_OF_ENTRIES));
     }
 
     @Test
     public void shouldClearCache() throws Exception {
         // Given
-        ConcurrentMapCacheStatsProvider statsProvider = new ConcurrentMapCacheStatsProvider(cacheManager);
+        GuavaCacheStatsProvider statsProvider = new GuavaCacheStatsProvider(cacheManager);
 
         // When
         Long deleted = statsProvider.clearCache("test");
 
         // Then
         assertThat(deleted, is(2L));
-        verify(cache, times(1)).clear();
+        verify(cache, times(1)).invalidateAll();
     }
 
     @Test
     public void shouldReturnNumberOfDeletedEntries() throws Exception {
         // Given
-        ConcurrentMapCacheStatsProvider statsProvider = new ConcurrentMapCacheStatsProvider(cacheManager);
+        GuavaCacheStatsProvider statsProvider = new GuavaCacheStatsProvider(cacheManager);
 
         // When
         Long deletedEntries = statsProvider.clearCache("test");
