@@ -30,11 +30,9 @@ public class GuavaCacheStatsProviderTest {
     @Mock
     private Cache<Object, Object> cache;
 
-    private GuavaCache guavaCache;
-
     @Before
     public void setUp() {
-        guavaCache = new GuavaCache(CACHE_NAME, cache);
+        GuavaCache guavaCache = new GuavaCache(CACHE_NAME, cache);
         when(cacheManager.getCacheNames()).thenReturn(cacheNames);
         when(cacheManager.getCache(CACHE_NAME)).thenReturn(guavaCache);
         com.google.common.cache.CacheStats stats = new com.google.common.cache.CacheStats(1L, 2L, 3L, 4L, 5L, 6L);
