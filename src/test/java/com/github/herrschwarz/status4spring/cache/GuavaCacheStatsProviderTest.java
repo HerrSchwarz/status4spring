@@ -1,9 +1,11 @@
 package com.github.herrschwarz.status4spring.cache;
 
+import com.github.herrschwarz.status4spring.groups.UnitTest;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -18,6 +20,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@Category(UnitTest.class)
 @RunWith(MockitoJUnitRunner.class)
 public class GuavaCacheStatsProviderTest {
     private static final String CACHE_NAME = "test";
