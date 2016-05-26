@@ -45,7 +45,7 @@ public class ConcurrentMapCacheStatsProviderTest {
     }
 
     @Test
-    public void shouldSetTheNameOfTheCache() throws Exception {
+    public void shouldSetTheNameOfTheCache() {
         // Given
         ConcurrentMapCacheStatsProvider statsProvider = new ConcurrentMapCacheStatsProvider(cacheManager);
 
@@ -57,7 +57,7 @@ public class ConcurrentMapCacheStatsProviderTest {
     }
 
     @Test
-    public void shouldSetTheTypeOfTheCache() throws Exception {
+    public void shouldSetTheTypeOfTheCache()  {
         // Given
         ConcurrentMapCacheStatsProvider statsProvider = new ConcurrentMapCacheStatsProvider(cacheManager);
 
@@ -69,7 +69,7 @@ public class ConcurrentMapCacheStatsProviderTest {
     }
 
     @Test
-    public void shouldSetTheNumberOfEntriesOfTheCache() throws Exception {
+    public void shouldSetTheNumberOfEntriesOfTheCache() {
         // Given
         ConcurrentMapCacheStatsProvider statsProvider = new ConcurrentMapCacheStatsProvider(cacheManager);
 
@@ -81,7 +81,7 @@ public class ConcurrentMapCacheStatsProviderTest {
     }
 
     @Test
-    public void shouldClearCache() throws Exception {
+    public void shouldClearCache() {
         // Given
         ConcurrentMapCacheStatsProvider statsProvider = new ConcurrentMapCacheStatsProvider(cacheManager);
 
@@ -94,7 +94,7 @@ public class ConcurrentMapCacheStatsProviderTest {
     }
 
     @Test
-    public void shouldReturnNumberOfDeletedEntries() throws Exception {
+    public void shouldReturnNumberOfDeletedEntries() {
         // Given
         ConcurrentMapCacheStatsProvider statsProvider = new ConcurrentMapCacheStatsProvider(cacheManager);
 

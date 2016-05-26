@@ -44,7 +44,7 @@ public class GuavaCacheStatsProviderTest {
     }
 
     @Test
-    public void shouldSetTheNameOfTheCache() throws Exception {
+    public void shouldSetTheNameOfTheCache() {
         // Given
         GuavaCacheStatsProvider statsProvider = new GuavaCacheStatsProvider(cacheManager);
 
@@ -56,7 +56,7 @@ public class GuavaCacheStatsProviderTest {
     }
 
     @Test
-    public void shouldSetTheTypeOfTheCache() throws Exception {
+    public void shouldSetTheTypeOfTheCache()  {
         // Given
         GuavaCacheStatsProvider statsProvider = new GuavaCacheStatsProvider(cacheManager);
 
@@ -68,7 +68,7 @@ public class GuavaCacheStatsProviderTest {
     }
 
     @Test
-    public void shouldSetTheNumberOfEntriesOfTheCache() throws Exception {
+    public void shouldSetTheNumberOfEntriesOfTheCache() {
         // Given
         GuavaCacheStatsProvider statsProvider = new GuavaCacheStatsProvider(cacheManager);
 
@@ -80,7 +80,7 @@ public class GuavaCacheStatsProviderTest {
     }
 
     @Test
-    public void shouldClearCache() throws Exception {
+    public void shouldClearCache() {
         // Given
         GuavaCacheStatsProvider statsProvider = new GuavaCacheStatsProvider(cacheManager);
 
@@ -93,7 +93,7 @@ public class GuavaCacheStatsProviderTest {
     }
 
     @Test
-    public void shouldReturnNumberOfDeletedEntries() throws Exception {
+    public void shouldReturnNumberOfDeletedEntries() {
         // Given
         GuavaCacheStatsProvider statsProvider = new GuavaCacheStatsProvider(cacheManager);
 
