@@ -17,14 +17,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SessionUtilTest {
 
     @Test
-    public void shouldGenerateEmptySessionAttributeMap() throws Exception {
+    public void shouldGenerateEmptySessionAttributeMap() {
         HttpSession session = new MockHttpSession();
         Map<String, String> result = SessionUtil.generateSessionAttributeMap(session);
         assertThat(result, not(nullValue()));
     }
 
     @Test
-    public void shouldGenerateSessionAttributeMap() throws Exception {
+    public void shouldGenerateSessionAttributeMap() {
         HttpSession session = new MockHttpSession();
         session.setAttribute("meaningOfLive", 42);
         session.setAttribute("towel", true);

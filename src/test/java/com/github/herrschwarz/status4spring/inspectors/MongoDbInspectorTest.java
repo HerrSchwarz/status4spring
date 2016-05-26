@@ -1,14 +1,9 @@
 package com.github.herrschwarz.status4spring.inspectors;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.mockito.Mockito.when;
-
 import com.github.herrschwarz.status4spring.groups.UnitTest;
 import com.mongodb.CommandResult;
 import com.mongodb.DB;
 import com.mongodb.MongoException;
-
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -16,6 +11,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.HashSet;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 @Category(UnitTest.class)
@@ -28,7 +27,7 @@ public class MongoDbInspectorTest {
   private CommandResult commandResult;
 
   @Test
-  public void shouldDetectMissingMongoDB() throws Exception {
+  public void shouldDetectMissingMongoDB() {
     // Given
     when(mongoDb.getCollectionNames()).thenThrow(new MongoException("test"));
     when(mongoDb.getName()).thenReturn("test");
@@ -44,7 +43,7 @@ public class MongoDbInspectorTest {
   }
 
   @Test
-  public void shouldDetectMongoDBNotOk() throws Exception {
+  public void shouldDetectMongoDBNotOk() {
     // Given
     HashSet<String> collections = new HashSet<>();
     collections.add("test");
@@ -78,7 +77,7 @@ public class MongoDbInspectorTest {
   }
 
   @Test
-  public void shouldDetectEmptyDb() throws Exception {
+  public void shouldDetectEmptyDb() {
     when(mongoDb.getCollectionNames()).thenReturn(new HashSet<>());
     when(mongoDb.getStats()).thenReturn(commandResult);
     when(commandResult.ok()).thenReturn(true);
