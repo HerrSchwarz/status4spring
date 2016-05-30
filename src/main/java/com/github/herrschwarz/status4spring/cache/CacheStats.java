@@ -1,47 +1,20 @@
 package com.github.herrschwarz.status4spring.cache;
 
-public class CacheStats {
+import org.immutables.value.Value;
 
-    private String name;
-    private String type;
-    private Long numberOfHits;
-    private Long numberOfEntries;
+import java.util.Optional;
 
-    public String getName() {
-        return name;
-    }
+@Value.Immutable
+public abstract class CacheStats {
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public abstract String getName();
+  public abstract String getType();
+  public abstract Long getNumberOfEntries();
+  public abstract Optional<Long> getHitCount();
+  public abstract Optional<Double> getHitRate();
+  public abstract Optional<Long> getMissCount();
+  public abstract Optional<Double> getMissRate();
+  public abstract Optional<Double> getAverageLoadPenalty();
+  public abstract Optional<Long> getRequestCount();
 
-    public Long getNumberOfHits() {
-        return numberOfHits;
-    }
-
-    /**
-     * @param numberOfHits: null will be displayed as unkown
-     */
-    public void setNumberOfHits(Long numberOfHits) {
-        this.numberOfHits = numberOfHits;
-    }
-
-    public Long getNumberOfEntries() {
-        return numberOfEntries;
-    }
-
-    /**
-     * @param numberOfEntries null will be displayed as unkown
-     */
-    public void setNumberOfEntries(Long numberOfEntries) {
-        this.numberOfEntries = numberOfEntries;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }
