@@ -96,6 +96,12 @@
       <artifactId>spring-context-support</artifactId>
       <version>4.2.1.RELEASE</version>
     </dependency>
+    <dependency>
+      <groupId>org.immutables</groupId>
+      <artifactId>value</artifactId>
+      <version>2.2</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <profiles>
@@ -188,6 +194,10 @@
           <verbose>true</verbose>
           <fork>true</fork>
           <compilerVersion>${java_version}</compilerVersion>
+          <source>${java_version}</source>
+          <target>${java_version}</target>
+          <!-- Prevents an endPosTable exception during compilation -->
+          <useIncrementalCompilation>false</useIncrementalCompilation>
         </configuration>
       </plugin>
       <plugin>
