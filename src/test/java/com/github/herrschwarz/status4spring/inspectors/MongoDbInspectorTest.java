@@ -63,7 +63,7 @@ public class MongoDbInspectorTest {
   }
 
   @Test
-  public void shouldDetectMongoDBOk() throws Exception {
+  public void shouldDetectMongoDBOk() {
     HashSet<String> collections = new HashSet<>();
     collections.add("test");
     when(mongoDb.getCollectionNames()).thenReturn(collections);

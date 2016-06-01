@@ -1,12 +1,22 @@
 package com.github.herrschwarz.status4spring;
 
-import static com.github.herrschwarz.status4spring.SessionModelKeys.SESSION_ATTRIBUTES_MODEL_KEY;
-import static com.github.herrschwarz.status4spring.SessionModelKeys.SESSION_CREATION_TIME_MODEL_KEY;
-import static com.github.herrschwarz.status4spring.SessionModelKeys.SESSION_ID_MODEL_KEY;
-import static com.github.herrschwarz.status4spring.ViewNames.INTERNAL_BUILD_VIEW_NAME;
-import static com.github.herrschwarz.status4spring.ViewNames.INTERNAL_SESSION_VIEW_NAME;
-import static com.github.herrschwarz.status4spring.ViewNames.INTERNAL_STATUS_VIEW_NAME;
-import static com.github.herrschwarz.status4spring.ViewNames.INTERNAL_VERSION_VIEW_NAME;
+import com.github.herrschwarz.status4spring.cache.CacheStatsProvider;
+import com.github.herrschwarz.status4spring.groups.UnitTest;
+import com.github.herrschwarz.status4spring.inspectors.HealthInspector;
+import com.github.herrschwarz.status4spring.inspectors.InspectionResult;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpSession;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import static com.github.herrschwarz.status4spring.SessionModelKeys.*;
+import static com.github.herrschwarz.status4spring.ViewNames.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.collection.IsMapContaining.hasKey;
@@ -14,28 +24,7 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import com.github.herrschwarz.status4spring.cache.CacheStatsProvider;
-import com.github.herrschwarz.status4spring.groups.UnitTest;
-import com.github.herrschwarz.status4spring.inspectors.HealthInspector;
-import com.github.herrschwarz.status4spring.inspectors.InspectionResult;
-
-
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
+import static org.mockito.Mockito.*;
 
 @Category(UnitTest.class)
 public class StatusControllerTest {
@@ -49,7 +38,7 @@ public class StatusControllerTest {
     private static final String EXECUTION_OF_INSPECTOR_FAILED = "execution of inspector failed";
 
     @Test
-    public void shouldSelectStatusViewNameForStatusPage() throws Exception {
+    public void shouldSelectStatusViewNameForStatusPage() {
         // Given
         StatusController statusController = new StatusController();
 
@@ -61,7 +50,7 @@ public class StatusControllerTest {
     }
 
     @Test
-    public void shouldSelectVersionViewNameForVersionPage() throws Exception {
+    public void shouldSelectVersionViewNameForVersionPage() {
         // Given
         StatusController statusController = new StatusController();
 
@@ -73,7 +62,7 @@ public class StatusControllerTest {
     }
 
     @Test
-    public void shouldSelectBuildViewNameForBuildPage() throws Exception {
+    public void shouldSelectBuildViewNameForBuildPage() {
         // Given
         StatusController statusController = new StatusController();
 
@@ -85,7 +74,7 @@ public class StatusControllerTest {
     }
 
     @Test
-    public void shouldSelectSessionViewNameForSessionPage() throws Exception {
+    public void shouldSelectSessionViewNameForSessionPage() {
         // Given
         StatusController statusController = new StatusController();
 
@@ -97,7 +86,7 @@ public class StatusControllerTest {
     }
 
     @Test
-    public void shouldPutSessionAttributeInModelMap() throws Exception {
+    public void shouldPutSessionAttributeInModelMap() {
         // Given
         StatusController statusController = new StatusController();
         HttpSession session = new MockHttpSession();
@@ -113,7 +102,7 @@ public class StatusControllerTest {
     }
 
     @Test
-    public void shouldPutSessionIdInModelMap() throws Exception {
+    public void shouldPutSessionIdInModelMap() {
         // Given
         StatusController statusController = new StatusController();
 
@@ -127,7 +116,7 @@ public class StatusControllerTest {
     }
 
     @Test
-    public void shouldPutSessionCreationTimestampInModelMap() throws Exception {
+    public void shouldPutSessionCreationTimestampInModelMap() {
         // Given
         StatusController statusController = new StatusController();
         MockHttpSession session = new MockHttpSession();
@@ -144,7 +133,7 @@ public class StatusControllerTest {
     }
 
     @Test
-    public void shouldCallCacheProviderOnClear() throws Exception {
+    public void shouldCallCacheProviderOnClear() {
         // Given
         StatusController statusController = new StatusController();
         CacheStatsProvider cacheStatsProviderMock = mock(CacheStatsProvider.class);

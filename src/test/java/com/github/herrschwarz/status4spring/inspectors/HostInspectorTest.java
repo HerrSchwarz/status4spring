@@ -24,7 +24,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 public class HostInspectorTest {
 
   @Test
-  public void shouldFailIfSocketCannotBeCreated() throws Exception {
+  public void shouldFailIfSocketCannotBeCreated() throws IOException {
     // Given
     mockStatic(SocketFactory.class);
     when(SocketFactory.createSocket(anyString(), anyInt())).thenThrow(new IOException());
@@ -40,7 +40,7 @@ public class HostInspectorTest {
   }
 
   @Test
-  public void shouldSucceedIfSocketCanBeCreated() throws Exception {
+  public void shouldSucceedIfSocketCanBeCreated() throws IOException {
     // Given
     mockStatic(SocketFactory.class);
     when(SocketFactory.createSocket(anyString(), anyInt())).thenReturn(mock(Socket.class));
