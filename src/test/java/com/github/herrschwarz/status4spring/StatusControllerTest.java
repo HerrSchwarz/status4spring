@@ -1,22 +1,12 @@
 package com.github.herrschwarz.status4spring;
 
-import com.github.herrschwarz.status4spring.cache.CacheStatsProvider;
-import com.github.herrschwarz.status4spring.groups.UnitTest;
-import com.github.herrschwarz.status4spring.inspectors.HealthInspector;
-import com.github.herrschwarz.status4spring.inspectors.InspectionResult;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import static com.github.herrschwarz.status4spring.SessionModelKeys.*;
-import static com.github.herrschwarz.status4spring.ViewNames.*;
+import static com.github.herrschwarz.status4spring.SessionModelKeys.SESSION_ATTRIBUTES_MODEL_KEY;
+import static com.github.herrschwarz.status4spring.SessionModelKeys.SESSION_CREATION_TIME_MODEL_KEY;
+import static com.github.herrschwarz.status4spring.SessionModelKeys.SESSION_ID_MODEL_KEY;
+import static com.github.herrschwarz.status4spring.ViewNames.INTERNAL_BUILD_VIEW_NAME;
+import static com.github.herrschwarz.status4spring.ViewNames.INTERNAL_SESSION_VIEW_NAME;
+import static com.github.herrschwarz.status4spring.ViewNames.INTERNAL_STATUS_VIEW_NAME;
+import static com.github.herrschwarz.status4spring.ViewNames.INTERNAL_VERSION_VIEW_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.collection.IsMapContaining.hasKey;
@@ -24,7 +14,27 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import com.github.herrschwarz.status4spring.cache.CacheStatsProvider;
+import com.github.herrschwarz.status4spring.groups.UnitTest;
+import com.github.herrschwarz.status4spring.inspectors.HealthInspector;
+import com.github.herrschwarz.status4spring.inspectors.InspectionResult;
+
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 @Category(UnitTest.class)
 public class StatusControllerTest {
@@ -157,7 +167,7 @@ public class StatusControllerTest {
         when(inspector.inspect()).thenReturn(result);
 
         // When
-        List<InspectionResult> inspectionResults = statusController.inspectSystem();
+        List<InspectionResult> inspectionResults = statusController.inspectSystem().getDetails();
 
         // Then
         assertThat(inspectionResults, is(notNullValue()));
@@ -178,7 +188,7 @@ public class StatusControllerTest {
         when(inspector.inspect()).thenThrow(new RuntimeException());
 
         // When
-        List<InspectionResult> inspectionResults = statusController.inspectSystem();
+        List<InspectionResult> inspectionResults = statusController.inspectSystem().getDetails();
 
         // Then
         assertThat(inspectionResults, is(notNullValue()));
