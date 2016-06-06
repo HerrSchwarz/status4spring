@@ -4,7 +4,7 @@
 
   <groupId>com.github.herrschwarz</groupId>
   <artifactId>status4spring</artifactId>
-  <version>0.1.2-SNAPSHOT</version>
+  <version>0.1.2</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Controller providing various information like memory utilization, number of processors and threads.
