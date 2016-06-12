@@ -170,7 +170,7 @@
           <th th:text="#{status_healthName_tableHead}">Health Check</th>
           <th th:text="#{status_health_tableHead}">Health</th>
           <th th:text="#{status_healthDescription_tableHead}">Description</th>
-          <th:block th:each="status : ${health}">
+          <th:block th:each="status : ${health.details}">
             <tr th:if="${status.successful}">
               <td th:text="${status.name}">Name</td>
               <td>
