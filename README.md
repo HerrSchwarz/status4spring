@@ -75,6 +75,7 @@ Status4spring is released to maven central:
 - Documentation
 - more health inspectors
 - See Issues
+- Semaphore status
 
 ## License
 
